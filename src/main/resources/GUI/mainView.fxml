@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
+<?import org.fxmisc.richtext.CodeArea?>
+
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="450.0" minWidth="640.0" prefHeight="700.0" prefWidth="1000.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainViewController">
+    <top>
+        <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleNew" text="New" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleOpen" text="Open..." />
+                        <MenuItem mnemonicParsing="false" onAction="#handleSave" text="Save" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleSaveAs" text="Save as" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Settings">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleCurrentSongSettings" text="Current Song Settings" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleSystemDefaultSettings" text="System Default Settings" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="666.0" BorderPane.alignment="CENTER">
+            <children>
+                <VirtualizedScrollPane layoutX="693.0" layoutY="70.0" prefHeight="522.0" prefWidth="898.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0" BorderPane.alignment="CENTER">
+                    <content>
+                        <CodeArea fx:id="mainText" prefHeight="644.0" prefWidth="974.0" stylesheets="@text_input_styles.css" />
+                    </content>
+                </VirtualizedScrollPane>
+                <AnchorPane layoutX="12.0" layoutY="614.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
+                    <children>
+                  <HBox alignment="CENTER" spacing="5.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <Button fx:id="showMXLButton" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#showMXLButtonHandle" text="Show MusicXML" />
+                        <Button fx:id="saveMXLButton" alignment="CENTER_RIGHT" disable="true" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#saveMXLButtonHandle" text="Save MusicXML" />
+                              <Button fx:id="saveTabButton" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#saveTabButtonHandle" text="Save Tablature" />
+                        <Button fx:id="previewButton" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#previewButtonHandle" text="Preview Sheet Music" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" spacing="5.0" AnchorPane.leftAnchor="0.0">
+                     <children>
+                        <Label text="Go To Measure" />
+                        <TextField fx:id="gotoMeasureField" prefWidth="50.0">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="gotoMeasureButton" mnemonicParsing="false" onAction="#handleGotoMeasure" text="Go" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

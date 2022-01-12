@@ -1,0 +1,86 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'jacoco'
+}
+
+group 'GUI'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    jcenter()
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+    dependsOn test
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    implementation group: 'org.fxmisc.richtext', name: 'richtextfx', version: '0.10.5'
+
+    implementation 'org.apache.commons:commons-csv:1.8'
+
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.5"
+
+    testImplementation "org.testfx:testfx-core:4.0.16-alpha"
+    testImplementation "org.testfx:testfx-junit5:4.0.16-alpha"
+
+    implementation 'com.github.JensPiegsa:jfugue:5.0.9'
+}
+
+task debug {
+    group = "application"
+    description = "Runs this project in debug mode on port 2311"
+	doFirst {
+		application {
+    		applicationDefaultJvmArgs = ['-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=2311']
+		}
+	}
+	finalizedBy run
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        //events 'passed', 'skipped', 'failed'
+        events 'passed', 'failed'
+    }
+    finalizedBy jacocoTestReport
+}
+
+task testDebug {
+	group = "verification"
+    description = "Runs the tests in debug mode on port 2311"
+    doFirst {
+    	test {
+    		jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=2311'
+   		}
+   	}
+    finalizedBy test
+}
+
+javafx {
+    version = "17.0.1"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+run {
+	enableAssertions = true
+    if (javafx.platform.classifier == 'win') {
+        // Temporal fix for Eclipse with JDK 1.8 and Windows
+        systemProperty "java.library.path", "C:\\tmp"
+    }
+}
+
+mainClassName = 'GUI.MainApp'
+

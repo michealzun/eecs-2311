@@ -1,0 +1,10 @@
+.DS_Store
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
+/bin/.gitignore
+/lib/.project
+/.settings/org.eclipse.jdt.core.prefs
