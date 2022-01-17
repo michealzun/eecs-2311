@@ -4,11 +4,7 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.8'
     id 'jacoco'
 }
-java{
-	toolchain{
-	languageVersion.set(JavaLanguageVersion.of(17))
-	}
-}
+
 group 'GUI'
 version '1.0-SNAPSHOT'
 
