@@ -306,7 +306,23 @@ public class MainViewController extends Application {
 
 	@FXML
 	private void previewButtonHandle() throws IOException {
-		System.out.println("Preview Button Clicked!");
+		//System.out.println("Preview Button Clicked!");
+		
+		
+		
+		testWindow x = new testWindow();
+		x.run();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		// converter.getMusicXML() returns the MusicXML output as a String
 	}
 
