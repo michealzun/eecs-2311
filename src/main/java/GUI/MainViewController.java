@@ -35,6 +35,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.IndexRange;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -307,21 +308,28 @@ public class MainViewController extends Application {
 	@FXML
 	private void previewButtonHandle() throws IOException {
 		//System.out.println("Preview Button Clicked!");
+//		testWindow x = new testWindow();
+//		x.run();
 		
-		
-		
-		testWindow x = new testWindow();
-		x.run();
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		try {
+			Stage stage = new Stage();
+			Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+			Scene scene = new Scene(root);
+
+			Image icon = new Image("image_assets/icon.png");
+			stage.getIcons().add(icon);
+			stage.setTitle("Music Previewer");
+
+			stage.setScene(scene);
+			stage.show();
+
+			// CSS Implementation
+			//	String css = getClass().getResource("application.css").toExternalForm();
+			//	scene.getStylesheets().add(css);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		// converter.getMusicXML() returns the MusicXML output as a String
 	}

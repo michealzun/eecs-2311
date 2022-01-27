@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1f1e21;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ApplicationController">
+   <children>
+      <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <VBox prefHeight="400.0" prefWidth="150.0" style="-fx-background-color: #1f1e21; -fx-border-width: 0 1 0 0; -fx-border-color: #262428;" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </VBox>
+         </left>
+         <center>
+            <Pane prefHeight="400.0" prefWidth="450.0" style="-fx-background-color: #1D1C1F;" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </Pane>
+         </center>
+         <top>
+            <AnchorPane prefHeight="90.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox layoutY="100.0" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #1f1e21;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image_assets/icon.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="110.0" text="Lorem Ipsum" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets left="1.5" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Label>
+                        <Separator fx:id="buttonSeperator" orientation="VERTICAL" prefHeight="50.0" prefWidth="1.0" stylesheets="@application.css">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" top="4.0" />
+                           </padding>
+                        </Separator>
+                        <MenuBar fx:id="menuBar" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #1f1e21;" stylesheets="@application.css">
+                          <menus>
+                            <Menu fx:id="FileBar" mnemonicParsing="false" text="File">
+                              <items>
+                                    <MenuItem fx:id="open" mnemonicParsing="false" onAction="#openFile" text="Open" />
+                                    <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveFile" text="Save" />
+                                    <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem fx:id="close" mnemonicParsing="false" onAction="#closeProgram" text="Exit" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Edit">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="Delete" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Help">
+                              <items>
+                                <MenuItem fx:id="about" mnemonicParsing="false" onAction="#aboutFile" text="About" />
+                              </items>
+                            </Menu>
+                          </menus>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <contextMenu>
+                              <ContextMenu>
+                                <items>
+                                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                                </items>
+                              </ContextMenu>
+                           </contextMenu>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </MenuBar>
+                     </children>
+                  </HBox>
+                  <HBox layoutY="37.0" prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #1D1C1F; -fx-border-color: #262428; -fx-border-width: 1 0 1 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="37.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="52.0" stylesheets="@application.css" text="Home" textFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image_assets/home.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="9.0" />
+                           </font></Button>
+                        <Separator fx:id="buttonSeperator" orientation="VERTICAL" prefHeight="50.0" prefWidth="1.0" stylesheets="@application.css">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </Separator>
+                        <Button fx:id="openButton" mnemonicParsing="false" onAction="#openFile" prefHeight="50.0" prefWidth="52.0" stylesheets="@application.css" text="Open" textFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" scaleX="1.1" scaleY="1.1" scaleZ="1.1">
+                                 <image>
+                                    <Image url="@../image_assets/open.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="9.0" />
+                           </font></Button>
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveFile" prefHeight="50.0" prefWidth="52.0" stylesheets="@application.css" text="Save" textFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image_assets/save.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="9.0" />
+                           </font></Button>
+                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="52.0" stylesheets="@application.css" text="Config" textFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" scaleZ="1.1">
+                                 <image>
+                                    <Image url="@../image_assets/config.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="9.0" />
+                           </font></Button>
+                        <Separator fx:id="buttonSeperator" orientation="VERTICAL" prefHeight="50.0" prefWidth="1.0" stylesheets="@application.css">
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </Separator>
+                        <Button fx:id="playPauseButton" mnemonicParsing="false" onAction="#playMedia" prefHeight="50.0" prefWidth="52.0" stylesheets="@application.css" text="Play" textFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image_assets/play.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="rewindButton" mnemonicParsing="false" onAction="#rewindMedia" prefHeight="50.0" prefWidth="52.0" stylesheets="@application.css" text="Rewind" textFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image_assets/rewind.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopMedia" prefHeight="50.0" prefWidth="52.0" stylesheets="@application.css" text="Stop" textFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image_assets/stop.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

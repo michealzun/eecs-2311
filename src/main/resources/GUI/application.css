@@ -1,0 +1,31 @@
+.context-menu {
+	-fx-background-color: #1f1e21;
+    -fx-border-color:  #1f1e21;
+   	-fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.8), 10.0, 0.0, 0.0, 0.0);
+   	}
+.menu {
+	-fx-background: #2a2a2b;
+	-fx-padding: 10.0px 10.0px;
+	 }
+.menu .label {
+	-fx-text-fill: #FFFFFF;
+	-fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.8), 10.0, 0.0, 0.0, 0.0);
+	}
+.menu-item {
+    -fx-padding: 5.0px 10.0px;
+    -fx-background: #242326;
+    }
+#name {
+	-fx-font-size: 30.0px;
+	}
+#buttonSeperator .line {
+	-fx-border-width: 0.5px;
+    -fx-border-color: #232226;
+    }
+.button {
+	-fx-content-display: top;
+	-fx-background-color: #1e1d21;
+}
+.button:hover {
+	-fx-background-color: #242326;
+}
