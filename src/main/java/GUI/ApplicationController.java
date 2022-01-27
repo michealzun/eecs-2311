@@ -54,14 +54,14 @@ public class ApplicationController {
 	@FXML
     private MenuItem about;
 	
-	@FXML
-    private Button playPauseButton;
+// 	@FXML
+//     private Button playPauseButton;
 	
-	@FXML
-	private Button rewindButton;
+// 	@FXML
+// 	private Button rewindButton;
 	 
-	@FXML
-    private Button stopButton;
+// 	@FXML
+//     private Button stopButton;
 	
     @FXML
     private Button openButton;
@@ -70,36 +70,36 @@ public class ApplicationController {
     private Button saveButton;
 	
 	
-	private File directory;
-	private File[] files;
+// 	private File directory;
+// 	private File[] files;
 
-	private ArrayList<File> songs;
+// 	private ArrayList<File> songs;
 
-	private int songNumber;
+// 	private int songNumber;
 
-	private Media media;
-	private MediaPlayer mediaPlayer;
+// 	private Media media;
+// 	private MediaPlayer mediaPlayer;
 
-	boolean isPlaying = false;
+// 	boolean isPlaying = false;
 	
 	
-	public void initialize(URL arg0, ResourceBundle resources) {
-		songs = new ArrayList<File>();
+// 	public void initialize(URL arg0, ResourceBundle resources) {
+// 		songs = new ArrayList<File>();
 
-		directory = new File("music");
+// 		directory = new File("music");
 
-		files = directory.listFiles();
+// 		files = directory.listFiles();
 
-		if(files != null) {
-			for (File file : files) {
-				songs.add(file);
-				System.out.println(file);
-			}
-		}
+// 		if(files != null) {
+// 			for (File file : files) {
+// 				songs.add(file);
+// 				System.out.println(file);
+// 			}
+// 		}
 
-		media = new Media(songs.get(songNumber).toURI().toString());
-		mediaPlayer = new MediaPlayer(media);
-	}
+// 		media = new Media(songs.get(songNumber).toURI().toString());
+// 		mediaPlayer = new MediaPlayer(media);
+// 	}
 
 	@FXML
 	void aboutFile(ActionEvent event) {
@@ -153,27 +153,27 @@ public class ApplicationController {
 		}
 	}
 	
-	public void playMedia() {
-		System.out.println("Plays Media!");
-//		if (isPlaying) {
-//			mediaPlayer.pause();
-//			isPlaying = false;
-//		}
-//		else {
-//			mediaPlayer.play();
-//			isPlaying = true;
-//		}
-	}
+// 	public void playMedia() {
+// 		System.out.println("Plays Media!");
+// //		if (isPlaying) {
+// //			mediaPlayer.pause();
+// //			isPlaying = false;
+// //		}
+// //		else {
+// //			mediaPlayer.play();
+// //			isPlaying = true;
+// //		}
+// 	}
 	
-	public void rewindMedia() {
-		System.out.println("Rewinds Media");
-//		mediaPlayer.seek(Duration.seconds(0));
-	}
+// 	public void rewindMedia() {
+// 		System.out.println("Rewinds Media");
+// //		mediaPlayer.seek(Duration.seconds(0));
+// 	}
 	
-	public void stopMedia() {
-		System.out.println("Stops Media!");
-//		mediaPlayer.stop();
-//		isPlaying = false;
-	}
+// 	public void stopMedia() {
+// 		System.out.println("Stops Media!");
+// //		mediaPlayer.stop();
+// //		isPlaying = false;
+// 	}
 
 }
