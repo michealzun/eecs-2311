@@ -49,53 +49,89 @@ public class parser {
 			newPart.id=((Element)parts).getAttribute("id");
 			
 			NodeList partChildren = parts.item(i).getChildNodes();
-			
 			for (int j=0; j<partChildren.getLength();j++){  
-				Node child = partChildren.item(j);
-				
-				if(((Element)child).getTagName()=="measure") {// for each measure
+				Node partChild = partChildren.item(j);
+
+				if(((Element)partChild).getTagName()=="measure") {// for each measure
 					Measure newMeasure=new Measure();
-					newMeasure.number=Integer. parseInt(((Element)child).getAttribute("number"));
+					newMeasure.number=Integer. parseInt(((Element)partChild).getAttribute("number"));
 					
-					
-					
-					
-					
-				
+					NodeList measureChildren = partChild.getChildNodes();
+					for (int k=0; j<measureChildren.getLength();k++){  
+						Node measureChild = measureChildren.item(k);
+						
+						
+						if(((Element)measureChild).getTagName()=="attributes") {// for each measure's attribute
+							NodeList attributeChildren = measureChild.getChildNodes();
+							
+							for (int l=0; l<attributeChildren.getLength();l++) {
+								Node attributeChild=attributeChildren.item(l);
+								
+								if(((Element)attributeChild).getTagName()=="divisions") {   //measure's division
+									newMeasure.divisions=Integer.parseInt(attributeChild.getTextContent());
+									
+								}else if(((Element)attributeChild).getTagName()=="key") {   //measure's fifth
+									newMeasure.fifth=Integer. parseInt(attributeChild.getFirstChild().getTextContent());
+
+								}else if(((Element)attributeChild).getTagName()=="clef") {    //measure's clef
+									NodeList clefChildren = attributeChild.getChildNodes();
+									
+									for (int m=0; m<clefChildren.getLength();m++) {     
+										Node clefChild=clefChildren.item(m);
+										 
+										if(((Element)clefChild).getTagName()=="sign") {    // clef's sign
+											newMeasure.clefSigh=clefChild.getTextContent();
+										}else if (((Element)clefChild).getTagName()=="line") {   //clef's lines
+											newMeasure.clefLine= Integer.parseInt(clefChild.getTextContent());
+										}
+									}								
+						
+								}else if(((Element)attributeChild).getTagName()=="staff-details") {
+									NodeList staffDetailsChildren = attributeChild.getChildNodes();
+									
+									for (int m=0; m<staffDetailsChildren.getLength();m++) {     
+										Node clefChild=staffDetailsChildren.item(m);
+										 
+										if(((Element)clefChild).getTagName()=="staff-tuning") {    
+											Line newLine=new Line();
+											newLine.number= Integer.parseInt(((Element)clefChild).getAttribute("line")); //for each line
+											NodeList staffTuningChildren=clefChild.getChildNodes();
+											
+											for (int n=0; n<staffTuningChildren.getLength();n++) {     
+												Node staffTuningChild=staffTuningChildren.item(m);
+												 
+												if(((Element)staffTuningChild).getTagName()=="tuning-step") {    // clef's sign
+													newLine.step=staffTuningChild.getTextContent();
+												}else if (((Element)staffTuningChild).getTagName()=="tuning-octave") {   //clef's lines
+													newLine.octavive= Integer.parseInt(clefChild.getTextContent());
+												}
+											}			
+											newMeasure.lines.add(newLine);
+										}
+									}						
+									
+									
+								}
+							}
+							
+						}else if((((Element)measureChild).getTagName()=="note")){ // for each note
+							NodeList noteChildren = measureChild.getChildNodes();
+							
+							Note newNote= new Note();
+							for (int l=0; l<noteChildren.getLength();l++) {
+								
+								
+								//Note data, WIP
+								
+								
+							}
+						}
+					}
 					newPart.measures.add(newMeasure);
 	             }
-				
 			}
 			partList.add(newPart);
-
 		}
-		
-		NodeList attributes= doc.getElementsByTagName("attributes");
-		NodeList divisions= doc.getElementsByTagName("divisions");
-		NodeList key= doc.getElementsByTagName("key");
-		NodeList clef= doc.getElementsByTagName("clef");
-		//for the staff
-		NodeList staffDetails= doc.getElementsByTagName("staff-details");
-		NodeList staffLines= doc.getElementsByTagName("staff-lines");
-		NodeList staffTuning= doc.getElementsByTagName("staff-tuning");
-		NodeList tuningStep= doc.getElementsByTagName("tuning-step");
-		NodeList tuningOctave= doc.getElementsByTagName("tuning-octave");
-		//for the notes
-		NodeList note= doc.getElementsByTagName("note");
-		NodeList pitch= doc.getElementsByTagName("pitch");
-		NodeList step= doc.getElementsByTagName("step");
-		NodeList octave= doc.getElementsByTagName("octave");
-		NodeList duration= doc.getElementsByTagName("duration");
-		NodeList voice= doc.getElementsByTagName("voice");
-		NodeList type= doc.getElementsByTagName("type");
-		NodeList notations= doc.getElementsByTagName("notations");
-		NodeList technical= doc.getElementsByTagName("technical");
-		NodeList string= doc.getElementsByTagName("string");
-		NodeList fret= doc.getElementsByTagName("fret");
-		
-		
-
-
 		}
 	}
 }
