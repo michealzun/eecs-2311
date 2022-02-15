@@ -121,11 +121,43 @@ public class parser {
 							
 							Note newNote= new Note();
 							for (int l=0; l<noteChildren.getLength();l++) {
+								Node noteChild=noteChildren.item(l);
 								
-								
-								//Note data, WIP
-								
-								
+								switch(((Element)noteChild).getTagName()) { 
+								case"pitch":                     //note pitch
+									NodeList pitchChildren=noteChild.getChildNodes();
+									for (int m=0; m<pitchChildren.getLength();m++) {
+										Node pitchChild=pitchChildren.item(m);
+										
+										if(((Element)pitchChild).getTagName()=="step") {  //note step
+											newNote.step= pitchChild.getTextContent();
+										}else if(((Element)pitchChild).getTagName()=="octave") {   //note octave
+											newNote.octave= Integer.parseInt(pitchChild.getTextContent());
+										}
+									}
+									break;
+								case"duration":                       // note duration
+									newNote.duration=Integer.parseInt(noteChild.getTextContent());  
+									break;
+								case"voice":                          // note voice
+									newNote.voice=Integer.parseInt(noteChild.getTextContent());  
+									break;
+								case"type":                               // note icon
+									newNote.type=noteChild.getTextContent();  
+									break;
+								case"notations":
+									NodeList technicalChildren=noteChild.getChildNodes().item(0).getChildNodes();
+									
+									for (int m=0; m<technicalChildren.getLength();m++) {
+										Node technicalChild=technicalChildren.item(m);
+										
+										if(((Element)technicalChild).getTagName()=="string") {  //note step
+											newNote.string= Integer.parseInt(technicalChild.getTextContent());
+										}else if(((Element)technicalChild).getTagName()=="fret") {   //note octave
+											newNote.fret= Integer.parseInt(technicalChild.getTextContent());
+										}
+									}
+									break;							
 							}
 						}
 					}
@@ -136,4 +168,5 @@ public class parser {
 		}
 		}
 	}
+}
 }
