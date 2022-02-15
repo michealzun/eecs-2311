@@ -17,12 +17,11 @@ import org.xml.sax.InputSource;
 public class parser {
 
 	public static void main(String[] args) throws Exception {
-		
-		List<Part> partList= new ArrayList<Part>();
-		
 		String input="";
-
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
+		List<Part> partList= new ArrayList<Part>();
+		String instrumentInfo="";
+		
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  //input string into document format
 		DocumentBuilder builder = factory.newDocumentBuilder();  
         Document doc=  builder.parse(new InputSource(new StringReader(input)));  
 		doc.getDocumentElement().normalize();
@@ -32,24 +31,13 @@ public class parser {
 		
 		for (int i=0; i<scorePart.getLength();i++)  //for each instrument
 		{ 
-                NodeList childNodes = scorePart.item(i).getChildNodes();
-                for(int j = 0; j < childNodes.getLength(); j++){
-                    Node detail = childNodes.item(j);
-                    if(((Element)detail).getTagName()=="part-name") {
-                    	System.out.println("instrument: " + ((Element)detail).getTagName());
-                        /*enter code here for displaying each intrument type
-                        eg:  part 1 = drum
-                        
-                        
-                        
-                         */
-                    	
-                    }
+                Node detail = scorePart.item(i).getChildNodes().item(0);
+                instrumentInfo+="instrument " +  ((Element)scorePart).getAttribute("id")+" : " + ((Element)detail).getTextContent() + "\n";
 		}
                 
 		//for the staff
 		NodeList parts= doc.getElementsByTagName("part");
-		for (i=0; i<parts.getLength();i++)  //for each part
+		for (int i=0; i<parts.getLength();i++)  //for each part
 		{ 		
 			Part newPart= new Part();
 			newPart.id=((Element)parts).getAttribute("id");
@@ -174,5 +162,4 @@ public class parser {
 		}
 		}
 	}
-}
 }
