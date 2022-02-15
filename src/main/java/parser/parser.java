@@ -1,6 +1,5 @@
 package parser;
 
-import java.io.File;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,153 +12,296 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-
 public class parser {
 
 	public static void main(String[] args) throws Exception {
-		String input="";
-		List<Part> partList= new ArrayList<Part>();
-		String instrumentInfo="";
-		
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  //input string into document format
-		DocumentBuilder builder = factory.newDocumentBuilder();  
-        Document doc=  builder.parse(new InputSource(new StringReader(input)));  
+		String input = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\r\n"
+				+ "<!DOCTYPE score-partwise PUBLIC \"-//Recordare//DTD MusicXML 3.1 Partwise//EN\" \"http://www.musicxml.org/dtds/partwise.dtd\">\r\n"
+				+ "<score-partwise version=\"3.1\">\r\n" + "  <identification>\r\n"
+				+ "    <creator type=\"composer\"></creator>\r\n" + "  </identification>\r\n" + "  <part-list>\r\n"
+				+ "    <score-part id=\"P1\">\r\n" + "      <part-name>Guitar</part-name>\r\n" + "    </score-part>\r\n"
+				+ "  </part-list>\r\n" + "  <part id=\"P1\">\r\n" + "    <measure number=\"1\">\r\n"
+				+ "      <attributes>\r\n" + "        <divisions>16</divisions>\r\n" + "        <key>\r\n"
+				+ "          <fifths>0</fifths>\r\n" + "        </key>\r\n" + "        <clef>\r\n"
+				+ "          <sign>TAB</sign>\r\n" + "          <line>5</line>\r\n" + "        </clef>\r\n"
+				+ "        <staff-details>\r\n" + "          <staff-lines>6</staff-lines>\r\n"
+				+ "          <staff-tuning line=\"1\">\r\n" + "            <tuning-step>E</tuning-step>\r\n"
+				+ "            <tuning-octave>2</tuning-octave>\r\n" + "          </staff-tuning>\r\n"
+				+ "          <staff-tuning line=\"2\">\r\n" + "            <tuning-step>A</tuning-step>\r\n"
+				+ "            <tuning-octave>2</tuning-octave>\r\n" + "          </staff-tuning>\r\n"
+				+ "          <staff-tuning line=\"3\">\r\n" + "            <tuning-step>D</tuning-step>\r\n"
+				+ "            <tuning-octave>3</tuning-octave>\r\n" + "          </staff-tuning>\r\n"
+				+ "          <staff-tuning line=\"4\">\r\n" + "            <tuning-step>G</tuning-step>\r\n"
+				+ "            <tuning-octave>3</tuning-octave>\r\n" + "          </staff-tuning>\r\n"
+				+ "          <staff-tuning line=\"5\">\r\n" + "            <tuning-step>B</tuning-step>\r\n"
+				+ "            <tuning-octave>3</tuning-octave>\r\n" + "          </staff-tuning>\r\n"
+				+ "          <staff-tuning line=\"6\">\r\n" + "            <tuning-step>E</tuning-step>\r\n"
+				+ "            <tuning-octave>4</tuning-octave>\r\n" + "          </staff-tuning>\r\n"
+				+ "        </staff-details>\r\n" + "      </attributes>\r\n" + "      <note>\r\n"
+				+ "        <pitch>\r\n" + "          <step>E</step>\r\n" + "          <octave>2</octave>\r\n"
+				+ "        </pitch>\r\n" + "        <duration>8</duration>\r\n" + "        <voice>1</voice>\r\n"
+				+ "        <type>eighth</type>\r\n" + "        <notations>\r\n" + "          <technical>\r\n"
+				+ "            <string>6</string>\r\n" + "            <fret>0</fret>\r\n" + "          </technical>\r\n"
+				+ "        </notations>\r\n" + "      </note>\r\n" + "      <note>\r\n" + "        <pitch>\r\n"
+				+ "          <step>B</step>\r\n" + "          <octave>2</octave>\r\n" + "        </pitch>\r\n"
+				+ "        <duration>8</duration>\r\n" + "        <voice>1</voice>\r\n"
+				+ "        <type>eighth</type>\r\n" + "        <notations>\r\n" + "          <technical>\r\n"
+				+ "            <string>5</string>\r\n" + "            <fret>2</fret>\r\n" + "          </technical>\r\n"
+				+ "        </notations>\r\n" + "      </note>\r\n" + "      <note>\r\n" + "        <pitch>\r\n"
+				+ "          <step>E</step>\r\n" + "          <octave>3</octave>\r\n" + "        </pitch>\r\n"
+				+ "        <duration>8</duration>\r\n" + "        <voice>1</voice>\r\n"
+				+ "        <type>eighth</type>\r\n" + "        <notations>\r\n" + "          <technical>\r\n"
+				+ "            <string>4</string>\r\n" + "            <fret>2</fret>\r\n" + "          </technical>\r\n"
+				+ "        </notations>\r\n" + "      </note>\r\n" + "      <note>\r\n" + "        <pitch>\r\n"
+				+ "          <step>G</step>\r\n" + "          <alter>1</alter>\r\n" + "          <octave>3</octave>\r\n"
+				+ "        </pitch>\r\n" + "        <duration>8</duration>\r\n" + "        <voice>1</voice>\r\n"
+				+ "        <type>eighth</type>\r\n" + "        <notations>\r\n" + "          <technical>\r\n"
+				+ "            <string>3</string>\r\n" + "            <fret>1</fret>\r\n" + "          </technical>\r\n"
+				+ "        </notations>\r\n" + "      </note>\r\n" + "      <note>\r\n" + "        <pitch>\r\n"
+				+ "          <step>B</step>\r\n" + "          <octave>3</octave>\r\n" + "        </pitch>\r\n"
+				+ "        <duration>8</duration>\r\n" + "        <voice>1</voice>\r\n"
+				+ "        <type>eighth</type>\r\n" + "        <notations>\r\n" + "          <technical>\r\n"
+				+ "            <string>2</string>\r\n" + "            <fret>0</fret>\r\n" + "          </technical>\r\n"
+				+ "        </notations>\r\n" + "      </note>\r\n" + "      <note>\r\n" + "        <pitch>\r\n"
+				+ "          <step>E</step>\r\n" + "          <octave>4</octave>\r\n" + "        </pitch>\r\n"
+				+ "        <duration>8</duration>\r\n" + "        <voice>1</voice>\r\n"
+				+ "        <type>eighth</type>\r\n" + "        <notations>\r\n" + "          <technical>\r\n"
+				+ "            <string>1</string>\r\n" + "            <fret>0</fret>\r\n" + "          </technical>\r\n"
+				+ "        </notations>\r\n" + "      </note>\r\n" + "      <note>\r\n" + "        <pitch>\r\n"
+				+ "          <step>B</step>\r\n" + "          <octave>3</octave>\r\n" + "        </pitch>\r\n"
+				+ "        <duration>8</duration>\r\n" + "        <voice>1</voice>\r\n"
+				+ "        <type>eighth</type>\r\n" + "        <notations>\r\n" + "          <technical>\r\n"
+				+ "            <string>2</string>\r\n" + "            <fret>0</fret>\r\n" + "          </technical>\r\n"
+				+ "        </notations>\r\n" + "      </note>\r\n" + "      <note>\r\n" + "        <pitch>\r\n"
+				+ "          <step>G</step>\r\n" + "          <alter>1</alter>\r\n" + "          <octave>3</octave>\r\n"
+				+ "        </pitch>\r\n" + "        <duration>8</duration>\r\n" + "        <voice>1</voice>\r\n"
+				+ "        <type>eighth</type>\r\n" + "        <notations>\r\n" + "          <technical>\r\n"
+				+ "            <string>3</string>\r\n" + "            <fret>1</fret>\r\n" + "          </technical>\r\n"
+				+ "        </notations>\r\n" + "      </note>\r\n" + "    </measure>\r\n"
+				+ "    <measure number=\"2\">\r\n" + "      <attributes>\r\n" + "        <divisions>16</divisions>\r\n"
+				+ "        <key>\r\n" + "          <fifths>0</fifths>\r\n" + "        </key>\r\n"
+				+ "      </attributes>\r\n" + "      <note>\r\n" + "        <pitch>\r\n"
+				+ "          <step>E</step>\r\n" + "          <octave>4</octave>\r\n" + "        </pitch>\r\n"
+				+ "        <duration>64</duration>\r\n" + "        <voice>1</voice>\r\n"
+				+ "        <type>whole</type>\r\n" + "        <notations>\r\n" + "          <technical>\r\n"
+				+ "            <string>1</string>\r\n" + "            <fret>0</fret>\r\n" + "          </technical>\r\n"
+				+ "        </notations>\r\n" + "      </note>\r\n" + "      <note>\r\n" + "        <chord/>\r\n"
+				+ "        <pitch>\r\n" + "          <step>B</step>\r\n" + "          <octave>3</octave>\r\n"
+				+ "        </pitch>\r\n" + "        <duration>64</duration>\r\n" + "        <voice>1</voice>\r\n"
+				+ "        <type>whole</type>\r\n" + "        <notations>\r\n" + "          <technical>\r\n"
+				+ "            <string>2</string>\r\n" + "            <fret>0</fret>\r\n" + "          </technical>\r\n"
+				+ "        </notations>\r\n" + "      </note>\r\n" + "      <note>\r\n" + "        <chord/>\r\n"
+				+ "        <pitch>\r\n" + "          <step>G</step>\r\n" + "          <alter>1</alter>\r\n"
+				+ "          <octave>3</octave>\r\n" + "        </pitch>\r\n" + "        <duration>64</duration>\r\n"
+				+ "        <voice>1</voice>\r\n" + "        <type>whole</type>\r\n" + "        <notations>\r\n"
+				+ "          <technical>\r\n" + "            <string>3</string>\r\n" + "            <fret>1</fret>\r\n"
+				+ "          </technical>\r\n" + "        </notations>\r\n" + "      </note>\r\n" + "      <note>\r\n"
+				+ "        <chord/>\r\n" + "        <pitch>\r\n" + "          <step>E</step>\r\n"
+				+ "          <octave>3</octave>\r\n" + "        </pitch>\r\n" + "        <duration>64</duration>\r\n"
+				+ "        <voice>1</voice>\r\n" + "        <type>whole</type>\r\n" + "        <notations>\r\n"
+				+ "          <technical>\r\n" + "            <string>4</string>\r\n" + "            <fret>2</fret>\r\n"
+				+ "          </technical>\r\n" + "        </notations>\r\n" + "      </note>\r\n" + "      <note>\r\n"
+				+ "        <chord/>\r\n" + "        <pitch>\r\n" + "          <step>B</step>\r\n"
+				+ "          <octave>2</octave>\r\n" + "        </pitch>\r\n" + "        <duration>64</duration>\r\n"
+				+ "        <voice>1</voice>\r\n" + "        <type>whole</type>\r\n" + "        <notations>\r\n"
+				+ "          <technical>\r\n" + "            <string>5</string>\r\n" + "            <fret>2</fret>\r\n"
+				+ "          </technical>\r\n" + "        </notations>\r\n" + "      </note>\r\n" + "      <note>\r\n"
+				+ "        <chord/>\r\n" + "        <pitch>\r\n" + "          <step>E</step>\r\n"
+				+ "          <octave>2</octave>\r\n" + "        </pitch>\r\n" + "        <duration>64</duration>\r\n"
+				+ "        <voice>1</voice>\r\n" + "        <type>whole</type>\r\n" + "        <notations>\r\n"
+				+ "          <technical>\r\n" + "            <string>6</string>\r\n" + "            <fret>0</fret>\r\n"
+				+ "          </technical>\r\n" + "        </notations>\r\n" + "      </note>\r\n" + "    </measure>\r\n"
+				+ "  </part>\r\n" + "</score-partwise>\r\n" + "";// input test
+		List<Part> partList = new ArrayList<Part>(); // DISPLAY THIS
+		String instrumentInfo = ""; // DISPLAY THIS
+
+		// _______________________________________________________________________________________________________________________________________
+
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); // input string into document format
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document doc = builder.parse(new InputSource(new StringReader(input)));
 		doc.getDocumentElement().normalize();
 
-		//for which instrument
-		NodeList scorePart= doc.getElementsByTagName("score-part");
-		
-		for (int i=0; i<scorePart.getLength();i++)  //for each instrument
-		{ 
-                Node detail = scorePart.item(i).getChildNodes().item(0);
-                instrumentInfo+="instrument " +  ((Element)scorePart).getAttribute("id")+" : " + ((Element)detail).getTextContent() + "\n";
-		}
-                
-		//for the staff
-		NodeList parts= doc.getElementsByTagName("part");
-		for (int i=0; i<parts.getLength();i++)  //for each part
-		{ 		
-			Part newPart= new Part();
-			newPart.id=((Element)parts).getAttribute("id");
-			
-			NodeList partChildren = parts.item(i).getChildNodes();
-			for (int j=0; j<partChildren.getLength();j++){  
-				Node partChild = partChildren.item(j);
+		// for which instrument
+		NodeList scorePart = doc.getElementsByTagName("score-part");
 
-				if(((Element)partChild).getTagName()=="measure") {// for each measure
-					Measure newMeasure=new Measure();
-					newMeasure.number=Integer. parseInt(((Element)partChild).getAttribute("number"));
-					
-					NodeList measureChildren = partChild.getChildNodes();
-					for (int k=0; j<measureChildren.getLength();k++){  
-						Node measureChild = measureChildren.item(k);
-						
-						
-						if(((Element)measureChild).getTagName()=="attributes") {// for each measure's attribute
-							NodeList attributeChildren = measureChild.getChildNodes();
-							
-							for (int l=0; l<attributeChildren.getLength();l++) {
-								Node attributeChild=attributeChildren.item(l);
-								
-								switch(((Element)attributeChild).getTagName()) {
-									case "divisions":    //measure's division
-										newMeasure.divisions=Integer.parseInt(attributeChild.getTextContent());
-										break;
-										
-									case "key": //measure's fifth
-										newMeasure.fifth=Integer. parseInt(attributeChild.getFirstChild().getTextContent());
-										break;
-										
-									case "clef":   //measure's clef
-										NodeList clefChildren = attributeChild.getChildNodes();
-										
-										for (int m=0; m<clefChildren.getLength();m++) {     
-											Node clefChild=clefChildren.item(m);
-											 
-											if(((Element)clefChild).getTagName()=="sign") {    // clef's sign
-												newMeasure.clefSigh = clefChild.getTextContent();
-											}else if (((Element)clefChild).getTagName()=="line") {   //clef's lines
-												newMeasure.clefLine = Integer.parseInt(clefChild.getTextContent());
-											}
-										}								
-										break;
-										
-									case "staff-details":     // staff stuff
-										NodeList staffDetailsChildren = attributeChild.getChildNodes();
-										
-										for (int m=0; m<staffDetailsChildren.getLength();m++) {     
-											Node clefChild=staffDetailsChildren.item(m);
-											 
-											if(((Element)clefChild).getTagName()=="staff-tuning") {    
-												Line newLine=new Line();
-												newLine.number= Integer.parseInt(((Element)clefChild).getAttribute("line")); //for each line
-												NodeList staffTuningChildren=clefChild.getChildNodes();
-												
-												for (int n=0; n<staffTuningChildren.getLength();n++) {     
-													Node staffTuningChild=staffTuningChildren.item(m);
-													 
-													if(((Element)staffTuningChild).getTagName()=="tuning-step") {    // clef's sign
-														newLine.step=staffTuningChild.getTextContent();
-													}else if (((Element)staffTuningChild).getTagName()=="tuning-octave") {   //clef's lines
-														newLine.octavive= Integer.parseInt(clefChild.getTextContent());
+		for (int i = 0; i < scorePart.getLength(); i++) // for each instrument
+		{
+			if (scorePart.item(i).getNodeType() == Node.ELEMENT_NODE) {
+				Node detail = scorePart.item(i).getChildNodes().item(1);
+				instrumentInfo += "instrument " + ((Element) scorePart.item(i)).getAttribute("id") + " : "+ ((Element) detail).getTextContent() + "\n";
+			}
+
+		}
+
+		// for the staff
+		NodeList parts = doc.getElementsByTagName("part");
+		for (int i = 0; i < parts.getLength(); i++) // for each part
+		{
+			if (parts.item(i).getNodeType() == Node.ELEMENT_NODE) {
+				Part newPart = new Part();
+				newPart.id = ((Element) parts.item(i)).getAttribute("id");
+
+				NodeList partChildren = parts.item(i).getChildNodes();
+				for (int j = 0; j < partChildren.getLength(); j++) {
+					if (partChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+
+						Node partChild = partChildren.item(j);
+
+						if (((Element) partChild).getTagName() == "measure") {// for each measure
+							Measure newMeasure = new Measure();
+							newMeasure.number = Integer.parseInt(((Element) partChild).getAttribute("number"));
+
+							NodeList measureChildren = partChild.getChildNodes();
+							for (int k = 0; j < measureChildren.getLength(); k++) {
+								if (measureChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+									Node measureChild = measureChildren.item(k);
+
+									if (((Element) measureChild).getTagName() == "attributes") {// for each measure's
+																								// attribute
+										NodeList attributeChildren = measureChild.getChildNodes();
+
+										for (int l = 0; l < attributeChildren.getLength(); l++) {
+											if (attributeChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+												Node attributeChild = attributeChildren.item(l);
+
+												switch (((Element) attributeChild).getTagName()) {
+												case "divisions": // measure's division
+													newMeasure.divisions = Integer
+															.parseInt(attributeChild.getTextContent());
+													break;
+
+												case "key": // measure's fifth
+													newMeasure.fifth = Integer
+															.parseInt(attributeChild.getFirstChild().getTextContent());
+													break;
+
+												case "clef": // measure's clef
+													NodeList clefChildren = attributeChild.getChildNodes();
+
+													for (int m = 0; m < clefChildren.getLength(); m++) {
+														if (clefChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+															Node clefChild = clefChildren.item(m);
+
+															if (((Element) clefChild).getTagName() == "sign") { // clef's
+																												// sign
+																newMeasure.clefSigh = clefChild.getTextContent();
+															} else if (((Element) clefChild).getTagName() == "line") { // clef's
+																														// lines
+																newMeasure.clefLine = Integer
+																		.parseInt(clefChild.getTextContent());
+															}
+														}
 													}
-												}			
-												newMeasure.lines.add(newLine);
+													break;
+
+												case "staff-details": // staff stuff
+													NodeList staffDetailsChildren = attributeChild.getChildNodes();
+
+													for (int m = 0; m < staffDetailsChildren.getLength(); m++) {
+														if (staffDetailsChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+															Node clefChild = staffDetailsChildren.item(m);
+
+															if (((Element) clefChild).getTagName() == "staff-tuning") {
+																Line newLine = new Line();
+																newLine.number = Integer.parseInt(
+																		((Element) clefChild).getAttribute("line")); // for each line
+																NodeList staffTuningChildren = clefChild
+																		.getChildNodes();
+
+																for (int n = 0; n < staffTuningChildren
+																		.getLength(); n++) {
+																	if (staffTuningChildren.item(i)
+																			.getNodeType() == Node.ELEMENT_NODE) {
+																		Node staffTuningChild = staffTuningChildren
+																				.item(m);
+
+																		if (((Element) staffTuningChild)
+																				.getTagName() == "tuning-step") { // clef's sign
+																			newLine.step = staffTuningChild
+																					.getTextContent();
+																		} else if (((Element) staffTuningChild)
+																				.getTagName() == "tuning-octave") { // clef's lines
+																			newLine.octavive = Integer.parseInt(
+																					clefChild.getTextContent());
+																		}
+																	}
+																	newMeasure.lines.add(newLine);
+
+																}
+															}
+														}
+														break;
+													}
+												}
 											}
-										}						
-										break;
+										}
+									} else if ((((Element) measureChild).getTagName() == "note")) { // for each note
+										NodeList noteChildren = measureChild.getChildNodes();
+
+										Note newNote = new Note();
+										for (int l = 0; l < noteChildren.getLength(); l++) {
+											if (noteChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+												Node noteChild = noteChildren.item(l);
+
+												switch (((Element) noteChild).getTagName()) {
+												case "pitch": // note pitch
+													NodeList pitchChildren = noteChild.getChildNodes();
+													for (int m = 0; m < pitchChildren.getLength(); m++) {
+														if (pitchChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+															Node pitchChild = pitchChildren.item(m);
+
+															if (((Element) pitchChild).getTagName() == "step") { // note step
+																newNote.step = pitchChild.getTextContent();
+															} else if (((Element) pitchChild)
+																	.getTagName() == "octave") { // note octave
+																newNote.octave = Integer
+																		.parseInt(pitchChild.getTextContent());
+															}
+														}
+													}
+													break;
+												case "duration": // note duration
+													newNote.duration = Integer.parseInt(noteChild.getTextContent());
+													break;
+												case "voice": // note voice
+													newNote.voice = Integer.parseInt(noteChild.getTextContent());
+													break;
+												case "type": // note icon
+													newNote.type = noteChild.getTextContent();
+													break;
+												case "notations":
+													NodeList technicalChildren = noteChild.getChildNodes().item(0)
+															.getChildNodes();
+
+													for (int m = 0; m < technicalChildren.getLength(); m++) {
+														if (technicalChildren.item(i)
+																.getNodeType() == Node.ELEMENT_NODE) {
+															Node technicalChild = technicalChildren.item(m);
+
+															if (((Element) technicalChild).getTagName() == "string") { // note step
+																newNote.string = Integer
+																		.parseInt(technicalChild.getTextContent());
+															} else if (((Element) technicalChild)
+																	.getTagName() == "fret") { // note octave
+																newNote.fret = Integer
+																		.parseInt(technicalChild.getTextContent());
+															}
+														}
+													}
+													break;
+												}
+											}
+										}
+									}
+									newPart.measures.add(newMeasure);
 								}
 							}
-						}else if((((Element)measureChild).getTagName()=="note")){ // for each note
-							NodeList noteChildren = measureChild.getChildNodes();
-							
-							Note newNote= new Note();
-							for (int l=0; l<noteChildren.getLength();l++) {
-								Node noteChild=noteChildren.item(l);
-								
-								switch(((Element)noteChild).getTagName()) { 
-								case"pitch":                     //note pitch
-									NodeList pitchChildren=noteChild.getChildNodes();
-									for (int m=0; m<pitchChildren.getLength();m++) {
-										Node pitchChild=pitchChildren.item(m);
-										
-										if(((Element)pitchChild).getTagName()=="step") {  //note step
-											newNote.step= pitchChild.getTextContent();
-										}else if(((Element)pitchChild).getTagName()=="octave") {   //note octave
-											newNote.octave= Integer.parseInt(pitchChild.getTextContent());
-										}
-									}
-									break;
-								case"duration":                       // note duration
-									newNote.duration=Integer.parseInt(noteChild.getTextContent());  
-									break;
-								case"voice":                          // note voice
-									newNote.voice=Integer.parseInt(noteChild.getTextContent());  
-									break;
-								case"type":                               // note icon
-									newNote.type=noteChild.getTextContent();  
-									break;
-								case"notations":
-									NodeList technicalChildren=noteChild.getChildNodes().item(0).getChildNodes();
-									
-									for (int m=0; m<technicalChildren.getLength();m++) {
-										Node technicalChild=technicalChildren.item(m);
-										
-										if(((Element)technicalChild).getTagName()=="string") {  //note step
-											newNote.string= Integer.parseInt(technicalChild.getTextContent());
-										}else if(((Element)technicalChild).getTagName()=="fret") {   //note octave
-											newNote.fret= Integer.parseInt(technicalChild.getTextContent());
-										}
-									}
-									break;							
-							}
 						}
+						partList.add(newPart);
 					}
-					newPart.measures.add(newMeasure);
-	             }
+				}
 			}
-			partList.add(newPart);
-		}
 		}
 	}
 }

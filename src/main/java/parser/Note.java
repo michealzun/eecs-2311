@@ -8,4 +8,6 @@ public class Note {
 	String type;
 	int string; // no idea what this is
 	int fret; //no idea what this is
+	
+	
 }
