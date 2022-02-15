@@ -1,6 +1,7 @@
 package parser;
 
 import java.io.File;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 
 public class parser {
@@ -17,8 +19,12 @@ public class parser {
 	public static void main(String[] args) throws Exception {
 		
 		List<Part> partList= new ArrayList<Part>();
-	
-		Document doc=DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("music.xml"));  //<---- our input 
+		
+		String input="";
+
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
+		DocumentBuilder builder = factory.newDocumentBuilder();  
+        Document doc=  builder.parse(new InputSource(new StringReader(input)));  
 		doc.getDocumentElement().normalize();
 
 		//for which instrument
