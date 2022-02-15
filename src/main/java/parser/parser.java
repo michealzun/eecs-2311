@@ -67,53 +67,55 @@ public class parser {
 							for (int l=0; l<attributeChildren.getLength();l++) {
 								Node attributeChild=attributeChildren.item(l);
 								
-								if(((Element)attributeChild).getTagName()=="divisions") {   //measure's division
-									newMeasure.divisions=Integer.parseInt(attributeChild.getTextContent());
-									
-								}else if(((Element)attributeChild).getTagName()=="key") {   //measure's fifth
-									newMeasure.fifth=Integer. parseInt(attributeChild.getFirstChild().getTextContent());
-
-								}else if(((Element)attributeChild).getTagName()=="clef") {    //measure's clef
-									NodeList clefChildren = attributeChild.getChildNodes();
-									
-									for (int m=0; m<clefChildren.getLength();m++) {     
-										Node clefChild=clefChildren.item(m);
-										 
-										if(((Element)clefChild).getTagName()=="sign") {    // clef's sign
-											newMeasure.clefSigh=clefChild.getTextContent();
-										}else if (((Element)clefChild).getTagName()=="line") {   //clef's lines
-											newMeasure.clefLine= Integer.parseInt(clefChild.getTextContent());
-										}
-									}								
-						
-								}else if(((Element)attributeChild).getTagName()=="staff-details") {
-									NodeList staffDetailsChildren = attributeChild.getChildNodes();
-									
-									for (int m=0; m<staffDetailsChildren.getLength();m++) {     
-										Node clefChild=staffDetailsChildren.item(m);
-										 
-										if(((Element)clefChild).getTagName()=="staff-tuning") {    
-											Line newLine=new Line();
-											newLine.number= Integer.parseInt(((Element)clefChild).getAttribute("line")); //for each line
-											NodeList staffTuningChildren=clefChild.getChildNodes();
-											
-											for (int n=0; n<staffTuningChildren.getLength();n++) {     
-												Node staffTuningChild=staffTuningChildren.item(m);
-												 
-												if(((Element)staffTuningChild).getTagName()=="tuning-step") {    // clef's sign
-													newLine.step=staffTuningChild.getTextContent();
-												}else if (((Element)staffTuningChild).getTagName()=="tuning-octave") {   //clef's lines
-													newLine.octavive= Integer.parseInt(clefChild.getTextContent());
-												}
-											}			
-											newMeasure.lines.add(newLine);
-										}
-									}						
-									
-									
+								switch(((Element)attributeChild).getTagName()) {
+									case "divisions":    //measure's division
+										newMeasure.divisions=Integer.parseInt(attributeChild.getTextContent());
+										break;
+										
+									case "key": //measure's fifth
+										newMeasure.fifth=Integer. parseInt(attributeChild.getFirstChild().getTextContent());
+										break;
+										
+									case "clef":   //measure's clef
+										NodeList clefChildren = attributeChild.getChildNodes();
+										
+										for (int m=0; m<clefChildren.getLength();m++) {     
+											Node clefChild=clefChildren.item(m);
+											 
+											if(((Element)clefChild).getTagName()=="sign") {    // clef's sign
+												newMeasure.clefSigh = clefChild.getTextContent();
+											}else if (((Element)clefChild).getTagName()=="line") {   //clef's lines
+												newMeasure.clefLine = Integer.parseInt(clefChild.getTextContent());
+											}
+										}								
+										break;
+										
+									case "staff-details":     // staff stuff
+										NodeList staffDetailsChildren = attributeChild.getChildNodes();
+										
+										for (int m=0; m<staffDetailsChildren.getLength();m++) {     
+											Node clefChild=staffDetailsChildren.item(m);
+											 
+											if(((Element)clefChild).getTagName()=="staff-tuning") {    
+												Line newLine=new Line();
+												newLine.number= Integer.parseInt(((Element)clefChild).getAttribute("line")); //for each line
+												NodeList staffTuningChildren=clefChild.getChildNodes();
+												
+												for (int n=0; n<staffTuningChildren.getLength();n++) {     
+													Node staffTuningChild=staffTuningChildren.item(m);
+													 
+													if(((Element)staffTuningChild).getTagName()=="tuning-step") {    // clef's sign
+														newLine.step=staffTuningChild.getTextContent();
+													}else if (((Element)staffTuningChild).getTagName()=="tuning-octave") {   //clef's lines
+														newLine.octavive= Integer.parseInt(clefChild.getTextContent());
+													}
+												}			
+												newMeasure.lines.add(newLine);
+											}
+										}						
+										break;
 								}
 							}
-							
 						}else if((((Element)measureChild).getTagName()=="note")){ // for each note
 							NodeList noteChildren = measureChild.getChildNodes();
 							
