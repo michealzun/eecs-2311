@@ -110,7 +110,7 @@ public class Parser {
 													for (int m = 0; m < staffDetailsChildren.getLength(); m++) {
 														if (staffDetailsChildren.item(m).getNodeType() == Node.ELEMENT_NODE) {
 															Node clefChild = staffDetailsChildren.item(m);
-
+														
 															if (((Element) clefChild).getTagName() == "staff-tuning") {
 																Line newLine = new Line();
 																newLine.number = Integer.parseInt(((Element) clefChild).getAttribute("line")); // for each line
@@ -123,15 +123,16 @@ public class Parser {
 																		if (((Element) staffTuningChild).getTagName() == "tuning-step") { // clef's sign
 																			newLine.step = staffTuningChild.getTextContent();
 																		} else if (((Element) staffTuningChild).getTagName() == "tuning-octave") { // clef's lines
-																			newLine.octavive = Integer.parseInt(clefChild.getTextContent());
+																			newLine.octave = clefChild.getTextContent();
 																		}
 																	}
 																}
 																newMeasure.lines.add(newLine);
 															}
 														}
-														break;
+														
 													}
+													break;
 												}
 											}
 										}
