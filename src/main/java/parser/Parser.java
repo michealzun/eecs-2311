@@ -18,11 +18,13 @@ public class Parser {
 	
     private Document doc;
     
-    public void setInput(String input) throws SAXException, IOException, ParserConfigurationException {
+    public void setInput(String input) {
+    	try {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); // input string into document format
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		doc = builder.parse(new InputSource(new StringReader(input)));
 		doc.getDocumentElement().normalize();
+    	}catch(Exception e) {}
 	}
 
 	public String getInstrumentInfo() {
@@ -44,33 +46,29 @@ public class Parser {
 		List<Part> partList = new ArrayList<Part>(); 
 
 		NodeList parts = doc.getElementsByTagName("part");
-		for (int i = 0; i < parts.getLength(); i++) // for each part
-		{
+		for (int i = 0; i < parts.getLength(); i++) { // for each part
 			if (parts.item(i).getNodeType() == Node.ELEMENT_NODE) {
 				Part newPart = new Part();
 				newPart.id = ((Element) parts.item(i)).getAttribute("id");
 
 				NodeList partChildren = parts.item(i).getChildNodes();
 				for (int j = 0; j < partChildren.getLength(); j++) {
-					if (partChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
-
+					if (partChildren.item(j).getNodeType() == Node.ELEMENT_NODE) {
 						Node partChild = partChildren.item(j);
-
 						if (((Element) partChild).getTagName() == "measure") {// for each measure
+
 							Measure newMeasure = new Measure();
 							newMeasure.number = Integer.parseInt(((Element) partChild).getAttribute("number"));
-
 							NodeList measureChildren = partChild.getChildNodes();
-							for (int k = 0; j < measureChildren.getLength(); k++) {
-								if (measureChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+							for (int k = 0; k < measureChildren.getLength(); k++) {
+								if (measureChildren.item(k).getNodeType() == Node.ELEMENT_NODE) {
 									Node measureChild = measureChildren.item(k);
-
 									if (((Element) measureChild).getTagName() == "attributes") {// for each measure's
 																								// attribute
 										NodeList attributeChildren = measureChild.getChildNodes();
 
 										for (int l = 0; l < attributeChildren.getLength(); l++) {
-											if (attributeChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+											if (attributeChildren.item(l).getNodeType() == Node.ELEMENT_NODE) {
 												Node attributeChild = attributeChildren.item(l);
 
 												switch (((Element) attributeChild).getTagName()) {
@@ -80,8 +78,14 @@ public class Parser {
 													break;
 
 												case "key": // measure's fifth
-													newMeasure.fifth = Integer
-															.parseInt(attributeChild.getFirstChild().getTextContent());
+													NodeList keyChildren =attributeChild.getChildNodes();
+													for (int m = 0; m < keyChildren.getLength(); m++) {
+														if(keyChildren.item(m).getNodeType() == Node.ELEMENT_NODE) {
+															Node keyChild = keyChildren.item(m);
+															if(((Element) keyChild).getTagName() == "fifth");
+																newMeasure.fifth = Integer.parseInt(keyChild.getTextContent());
+														}
+													}
 													break;
 
 												case "clef": // measure's clef
@@ -107,7 +111,7 @@ public class Parser {
 													NodeList staffDetailsChildren = attributeChild.getChildNodes();
 
 													for (int m = 0; m < staffDetailsChildren.getLength(); m++) {
-														if (staffDetailsChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+														if (staffDetailsChildren.item(m).getNodeType() == Node.ELEMENT_NODE) {
 															Node clefChild = staffDetailsChildren.item(m);
 
 															if (((Element) clefChild).getTagName() == "staff-tuning") {
@@ -149,14 +153,14 @@ public class Parser {
 
 										Note newNote = new Note();
 										for (int l = 0; l < noteChildren.getLength(); l++) {
-											if (noteChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+											if (noteChildren.item(l).getNodeType() == Node.ELEMENT_NODE) {
 												Node noteChild = noteChildren.item(l);
 
 												switch (((Element) noteChild).getTagName()) {
 												case "pitch": // note pitch
 													NodeList pitchChildren = noteChild.getChildNodes();
 													for (int m = 0; m < pitchChildren.getLength(); m++) {
-														if (pitchChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+														if (pitchChildren.item(m).getNodeType() == Node.ELEMENT_NODE) {
 															Node pitchChild = pitchChildren.item(m);
 
 															if (((Element) pitchChild).getTagName() == "step") { // note step
@@ -183,8 +187,7 @@ public class Parser {
 															.getChildNodes();
 
 													for (int m = 0; m < technicalChildren.getLength(); m++) {
-														if (technicalChildren.item(i)
-																.getNodeType() == Node.ELEMENT_NODE) {
+														if (technicalChildren.item(m).getNodeType() == Node.ELEMENT_NODE) {
 															Node technicalChild = technicalChildren.item(m);
 
 															if (((Element) technicalChild).getTagName() == "string") { // note step
@@ -206,9 +209,10 @@ public class Parser {
 								}
 							}
 						}
-						partList.add(newPart);
+						
 					}
 				}
+				partList.add(newPart);
 			}
 		}
 		return partList;
