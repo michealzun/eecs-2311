@@ -103,11 +103,30 @@ public class ParserTester {
 	
 	public static void main(String[] args) {
 
-		Parser p=new Parser();
-		p.setInput(s);	
-		List<Part> l = p.getSheetInfo();
-		System.out.println("number of measures : " + l.get(0).measures.size());
-		System.out.println("measure 1 : " + l.get(0).measures.get(0).fifth);
-
+		Parser parse=new Parser();
+		parse.setInput(s);	
+		Part p = parse.getSheetInfo().get(0);
+		Measure m = p.measures.get(0);
+		//Note n=m.notes.get(0);
+		
+		System.out.println("number of parts : " + parse.getSheetInfo().size());
+		System.out.println("1st parts id: " + p.id);
+		System.out.println("1st part number of measures : " + p.measures.size());
+		System.out.println("1st measure number: " + p.measures.get(0).number);
+		System.out.println("1st measure divisions: " + m.divisions);
+		System.out.println("1st measure fifth: " + m.fifth);
+		System.out.println("1st measure clefSigh: " + m.clefSigh);
+		System.out.println("1st measure clefLine: " + m.clefLine);
+		System.out.println("1st measure number of lines: " + m.lines.size());
+		
+		/*
+		System.out.println("1st measure number of notes: " + m.notes.size());
+		System.out.println("1st note step:" + n.step);
+		System.out.println("1st note octave: " + n.octave);
+		System.out.println("1st note duration: " + n.duration);
+		System.out.println("1st note voice: " + n.voice);
+		System.out.println("1st note type: " + n.type);
+		System.out.println("1st note string: " + n.string);
+		System.out.println("1st note fret: " + n.fret);*/
 	}
 }

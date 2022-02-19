@@ -92,16 +92,13 @@ public class Parser {
 													NodeList clefChildren = attributeChild.getChildNodes();
 
 													for (int m = 0; m < clefChildren.getLength(); m++) {
-														if (clefChildren.item(i).getNodeType() == Node.ELEMENT_NODE) {
+														if (clefChildren.item(m).getNodeType() == Node.ELEMENT_NODE) {
 															Node clefChild = clefChildren.item(m);
 
-															if (((Element) clefChild).getTagName() == "sign") { // clef's
-																												// sign
+															if (((Element) clefChild).getTagName() == "sign") { // clef sign
 																newMeasure.clefSigh = clefChild.getTextContent();
-															} else if (((Element) clefChild).getTagName() == "line") { // clef's
-																														// lines
-																newMeasure.clefLine = Integer
-																		.parseInt(clefChild.getTextContent());
+															} else if (((Element) clefChild).getTagName() == "line") { // clef lines
+																newMeasure.clefLine = Integer.parseInt(clefChild.getTextContent());
 															}
 														}
 													}
@@ -116,31 +113,21 @@ public class Parser {
 
 															if (((Element) clefChild).getTagName() == "staff-tuning") {
 																Line newLine = new Line();
-																newLine.number = Integer.parseInt(
-																		((Element) clefChild).getAttribute("line")); // for each line
-																NodeList staffTuningChildren = clefChild
-																		.getChildNodes();
+																newLine.number = Integer.parseInt(((Element) clefChild).getAttribute("line")); // for each line
+																NodeList staffTuningChildren = clefChild.getChildNodes();
 
-																for (int n = 0; n < staffTuningChildren
-																		.getLength(); n++) {
-																	if (staffTuningChildren.item(i)
-																			.getNodeType() == Node.ELEMENT_NODE) {
-																		Node staffTuningChild = staffTuningChildren
-																				.item(m);
+																for (int n = 0; n < staffTuningChildren.getLength(); n++) {
+																	if (staffTuningChildren.item(n).getNodeType() == Node.ELEMENT_NODE) {
+																		Node staffTuningChild = staffTuningChildren.item(n);
 
-																		if (((Element) staffTuningChild)
-																				.getTagName() == "tuning-step") { // clef's sign
-																			newLine.step = staffTuningChild
-																					.getTextContent();
-																		} else if (((Element) staffTuningChild)
-																				.getTagName() == "tuning-octave") { // clef's lines
-																			newLine.octavive = Integer.parseInt(
-																					clefChild.getTextContent());
+																		if (((Element) staffTuningChild).getTagName() == "tuning-step") { // clef's sign
+																			newLine.step = staffTuningChild.getTextContent();
+																		} else if (((Element) staffTuningChild).getTagName() == "tuning-octave") { // clef's lines
+																			newLine.octavive = Integer.parseInt(clefChild.getTextContent());
 																		}
 																	}
-																	newMeasure.lines.add(newLine);
-
 																}
+																newMeasure.lines.add(newLine);
 															}
 														}
 														break;
@@ -165,10 +152,8 @@ public class Parser {
 
 															if (((Element) pitchChild).getTagName() == "step") { // note step
 																newNote.step = pitchChild.getTextContent();
-															} else if (((Element) pitchChild)
-																	.getTagName() == "octave") { // note octave
-																newNote.octave = Integer
-																		.parseInt(pitchChild.getTextContent());
+															} else if (((Element) pitchChild).getTagName() == "octave") { // note octave
+																newNote.octave = Integer.parseInt(pitchChild.getTextContent());
 															}
 														}
 													}
@@ -191,12 +176,9 @@ public class Parser {
 															Node technicalChild = technicalChildren.item(m);
 
 															if (((Element) technicalChild).getTagName() == "string") { // note step
-																newNote.string = Integer
-																		.parseInt(technicalChild.getTextContent());
-															} else if (((Element) technicalChild)
-																	.getTagName() == "fret") { // note octave
-																newNote.fret = Integer
-																		.parseInt(technicalChild.getTextContent());
+																newNote.string = Integer.parseInt(technicalChild.getTextContent());
+															} else if (((Element) technicalChild).getTagName() == "fret") { // note octave
+																newNote.fret = Integer.parseInt(technicalChild.getTextContent());
 															}
 														}
 													}
@@ -204,6 +186,7 @@ public class Parser {
 												}
 											}
 										}
+										newMeasure.notes.add(newNote);
 									}
 									newPart.measures.add(newMeasure);
 								}

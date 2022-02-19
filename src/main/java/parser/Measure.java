@@ -1,5 +1,6 @@
 package parser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Measure {
@@ -8,6 +9,7 @@ public class Measure {
 	int fifth;
 	String clefSigh;
 	int clefLine;
-	List<Line> lines;
+	List<Line> lines=new ArrayList<Line>();
+	List<Note> notes=new ArrayList<Note>();
 	
 }
