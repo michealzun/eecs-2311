@@ -168,18 +168,29 @@ public class Parser {
 													newNote.type = noteChild.getTextContent();
 													break;
 												case "notations":
-													NodeList technicalChildren = noteChild.getChildNodes().item(0)
-															.getChildNodes();
-
-													for (int m = 0; m < technicalChildren.getLength(); m++) {
-														if (technicalChildren.item(m).getNodeType() == Node.ELEMENT_NODE) {
-															Node technicalChild = technicalChildren.item(m);
-
-															if (((Element) technicalChild).getTagName() == "string") { // note step
-																newNote.string = Integer.parseInt(technicalChild.getTextContent());
-															} else if (((Element) technicalChild).getTagName() == "fret") { // note octave
-																newNote.fret = Integer.parseInt(technicalChild.getTextContent());
+													NodeList notationChildren = noteChild.getChildNodes(); 
+													for (int m = 0; m < notationChildren.getLength(); m++) {
+														if (notationChildren.item(m).getNodeType() == Node.ELEMENT_NODE) {
+															Node notationChild = notationChildren.item(m);
+															
+															if (((Element) notationChild).getTagName() == "technical") {
+																NodeList technicalChildren = notationChild.getChildNodes(); 
+																
+																for (int n = 0; n < technicalChildren.getLength(); n++) {
+																	if (technicalChildren.item(n).getNodeType() == Node.ELEMENT_NODE) {
+																		Node technicalChild = technicalChildren.item(n);
+																		
+																		if (((Element) technicalChild).getTagName() == "string") { // note step
+																			newNote.string = Integer.parseInt(technicalChild.getTextContent());
+																		} else if (((Element) technicalChild).getTagName() == "fret") { // note octave
+																			newNote.fret = Integer.parseInt(technicalChild.getTextContent());
+																		}
+																			
+																	}
+																}
+																
 															}
+																
 														}
 													}
 													break;

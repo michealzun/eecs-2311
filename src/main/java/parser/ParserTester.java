@@ -107,7 +107,7 @@ public class ParserTester {
 		parse.setInput(s);	
 		Part p = parse.getSheetInfo().get(0);
 		Measure m = p.measures.get(0);
-		//Note n=m.notes.get(0);
+		Note n=m.notes.get(0);
 		
 		System.out.println("number of parts : " + parse.getSheetInfo().size());
 		System.out.println("1st parts id: " + p.id);
@@ -119,7 +119,7 @@ public class ParserTester {
 		System.out.println("1st measure clefLine: " + m.clefLine);
 		System.out.println("1st measure number of lines: " + m.lines.size());
 		
-		/*
+		
 		System.out.println("1st measure number of notes: " + m.notes.size());
 		System.out.println("1st note step:" + n.step);
 		System.out.println("1st note octave: " + n.octave);
@@ -127,6 +127,6 @@ public class ParserTester {
 		System.out.println("1st note voice: " + n.voice);
 		System.out.println("1st note type: " + n.type);
 		System.out.println("1st note string: " + n.string);
-		System.out.println("1st note fret: " + n.fret);*/
+		System.out.println("1st note fret: " + n.fret);
 	}
 }
