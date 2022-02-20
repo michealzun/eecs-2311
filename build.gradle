@@ -13,9 +13,10 @@ group 'GUI'
 version '1.0-SNAPSHOT'
 
 repositories {
+	maven { url "https://repo.osgeo.org/repository/release" }
     mavenCentral()
-    maven { url 'https://jitpack.io' }
     jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 jacoco {
@@ -40,6 +41,16 @@ dependencies {
     testImplementation "org.testfx:testfx-junit5:4.0.16-alpha"
 
     implementation 'com.github.JensPiegsa:jfugue:5.0.9'
+
+ 	// https://mvnrepository.com/artifact/org.icepdf.os/icepdf-core
+	implementation 'org.icepdf.os:icepdf-core:6.2.2'
+
+	// https://mvnrepository.com/artifact/org.icepdf.os/icepdf-viewer
+	implementation 'org.icepdf.os:icepdf-viewer:6.2.2'
+	
+	// https://mvnrepository.com/artifact/javax.media/jai_core
+	implementation 'javax.media:jai_core:1.1.3'
+	
 }
 
 task debug {
@@ -75,7 +86,7 @@ task testDebug {
 
 javafx {
     version = "17.0.1"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing', 'javafx.base', 'javafx.media', 'javafx.graphics', 'javafx.web' ]
 }
 
 run {

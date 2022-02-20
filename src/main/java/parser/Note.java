@@ -5,7 +5,7 @@ public class Note {
 	int octave;
 	int duration;
 	int voice;
-	String type;
+	public String type;
 	int string; 
 	int fret; 
 	

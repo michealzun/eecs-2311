@@ -1,18 +1,18 @@
 .context-menu {
 	-fx-background-color: #1f1e21;
     -fx-border-color:  #1f1e21;
-   	-fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.8), 10.0, 0.0, 0.0, 0.0);
+   	-fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.3), 5.0, 0.0, 0.0, 0.0);
    	}
 .menu {
 	-fx-background: #2a2a2b;
-	-fx-padding: 10.0px 10.0px;
+	-fx-padding: 5 7.5;
 	 }
 .menu .label {
 	-fx-text-fill: #FFFFFF;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.8), 10.0, 0.0, 0.0, 0.0);
 	}
 .menu-item {
-    -fx-padding: 5.0px 10.0px;
+	-fx-padding: 3 5;
     -fx-background: #242326;
     }
 #name {
@@ -28,4 +28,7 @@
 }
 .button:hover {
 	-fx-background-color: #242326;
+}
+#filePathTitle {
+	-fx-font-size: 12px;
 }

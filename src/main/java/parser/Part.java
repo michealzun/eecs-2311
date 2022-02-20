@@ -5,5 +5,5 @@ import java.util.List;
 
 public class Part {
 	String id;
-	List<Measure> measures=new ArrayList<Measure>();
+	public List<Measure> measures=new ArrayList<Measure>();
 }
