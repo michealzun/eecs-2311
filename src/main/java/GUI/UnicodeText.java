@@ -24,13 +24,14 @@ public class UnicodeText {
 	static int measureWidth=400;
 	static int measureSpacing=100;
 	static int measuresPerLine=4;
+	static int fontSize=40;
 	static JFrame f;
 	
 	public UnicodeText(String input) {
 		parse.setInput(input);
         f = new JFrame();
-
-    f.setSize(4000,400);
+        f.setFont(new Font("Bravura", Font.PLAIN, fontSize));
+    f.setSize(4000,4000);
     f.setVisible(true);
 	}
 	
@@ -69,11 +70,11 @@ public class UnicodeText {
 		}
 
 		for(int i = 0; i < measureBarLength; i++) {
-			drawString(measureType, 50 + measureWidth * (measureNumber % measuresPerLine) + i * 30, 40 + measureSpacing * (measureNumber / measuresPerLine));
+			drawString(measureType, 10 + measureWidth * (measureNumber % measuresPerLine) + i * 30, 100 + measureSpacing * (measureNumber / measuresPerLine));
 		}
 
 		for (int i = 0; i < m.notes.size(); i++)  {
-			drawNote(50 + measureWidth * (measureNumber % measuresPerLine), 40 + measureSpacing * (measureNumber / measuresPerLine), m.notes.get(i));
+			drawNote(10 + measureWidth * (measureNumber % measuresPerLine), 100 + measureSpacing * (measureNumber / measuresPerLine), m.notes.get(i));
 		}
 	}
 
