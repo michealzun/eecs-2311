@@ -12,4 +12,4 @@ This work is licensed under a
 [cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
 
 # Documentation
-[User Manual](https://pages.github.com/).
+[User Manual](https://docs.google.com/document/d/19B2OShBREREmkL5LfhucvWfGg3gO6FqC7j-uKiEmPQM/edit?usp=sharing).
