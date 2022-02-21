@@ -1,12 +1,8 @@
 package GUI;
 
 import java.awt.Font;
-
-
 import java.util.List;
-
 import javax.swing.JFrame;
-
 import parser.Measure;
 import parser.Note;
 import parser.Parser;
@@ -15,18 +11,18 @@ import parser.Part;
 
 public class UnicodeText {
 	Parser parse = new Parser();
-	static int measureBarLength = 32;
-	static int measureWidth=400;
+	static int measureBarLength = 8;
+	static int measureWidth=100;
 	static int measureSpacing=100;
 	static int measuresPerLine=4;
-	static int fontSize=40;
+	static int fontSize=34;
 	static JFrame f;
 	
 	public UnicodeText(String input) {
 		parse.setInput(input);
         f = new JFrame();
         f.setFont(new Font("Bravura", Font.PLAIN, fontSize));
-    f.setSize(4000,4000);
+    f.setSize(1000,1000);
     f.setVisible(true);
 	}
 	
@@ -41,7 +37,6 @@ public class UnicodeText {
 	
 	
 	static void drawMeasure(int measureNumber, Measure m) {
-
 		String measureType="";
 		switch(m.lines.size()) {
 		case 1:
@@ -65,11 +60,12 @@ public class UnicodeText {
 		}
 
 		for(int i = 0; i < measureBarLength; i++) {
-			drawString(measureType, 10 + measureWidth * (measureNumber % measuresPerLine) + i * 30, 100 + measureSpacing * (measureNumber / measuresPerLine));
+			drawString(measureType, 50 + measureWidth * ((measureNumber-1) % measuresPerLine) + i * 30, 100 + measureSpacing * (measureNumber / measuresPerLine));
 		}
+		drawString("\uD834\uDD00",50 + measureWidth * ((measureNumber-1) % measuresPerLine) + measureBarLength * 30, 100 + measureSpacing * (measureNumber / measuresPerLine));
 
 		for (int i = 0; i < m.notes.size(); i++)  {
-			drawNote(10 + measureWidth * (measureNumber % measuresPerLine), 100 + measureSpacing * (measureNumber / measuresPerLine), m.notes.get(i));
+			drawNote(100 + measureWidth * ((measureNumber-1) % measuresPerLine), 100 + measureSpacing * (measureNumber / measuresPerLine), m.notes.get(i));
 		}
 	}
 
