@@ -1,5 +1,7 @@
 package GUI;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.awt.Font;
 
 
@@ -22,9 +24,14 @@ public class UnicodeText {
 	static int measureWidth=400;
 	static int measureSpacing=100;
 	static int measuresPerLine=4;
-
+	static JFrame f;
+	
 	public UnicodeText(String input) {
 		parse.setInput(input);
+        f = new JFrame();
+
+    f.setSize(4000,400);
+    f.setVisible(true);
 	}
 	
 	public void run() {
@@ -103,21 +110,9 @@ public class UnicodeText {
 	}
 
 	private static void drawString(String noteType, int x, int y) {
-		JFrame f = new JFrame() {
-			public void paint(Graphics g) {
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-						RenderingHints.VALUE_ANTIALIAS_ON);
 
-				Font font = new Font("Bravura", Font.PLAIN, 32);
+		f.getGraphics().drawString(noteType, x, y);
 
-				g2.setFont(font);
-				g2.drawString(noteType, x, y);
-
-			}
-		};
-		f.setSize(200,200);
-		f.setVisible(true);
 	}
 
 
