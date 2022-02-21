@@ -45,6 +45,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import parser.Parser;
 
 
 public class ApplicationController implements Initializable {
@@ -209,7 +210,6 @@ public class ApplicationController implements Initializable {
 		Stage stage = (Stage) anchorpane.getScene().getWindow();
 		File file = fileChooser.showOpenDialog(stage);
 	
-		parser.setInput(input);
 		System.out.println(parser.getInstrumentInfo());
 		System.out.println(parser.getSheetInfo());
 		

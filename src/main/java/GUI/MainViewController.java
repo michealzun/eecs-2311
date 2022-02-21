@@ -331,6 +331,9 @@ public class MainViewController extends Application {
 			e.printStackTrace();
 		}
 		
+		UnicodeText uni = new UnicodeText(converter.getMusicXML());
+		uni.run();
+		
 		// converter.getMusicXML() returns the MusicXML output as a String
 	}
 

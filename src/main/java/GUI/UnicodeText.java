@@ -17,12 +17,26 @@ import parser.Part;
 
 
 public class UnicodeText {
-
+	Parser parse = new Parser();
 	static int measureBarLength = 32;
 	static int measureWidth=400;
 	static int measureSpacing=100;
 	static int measuresPerLine=4;
 
+	public UnicodeText(String input) {
+		parse.setInput(input);
+	}
+	
+	public void run() {
+		Part p = parse.getSheetInfo().get(0); // only do the first instrument for now
+		List<Measure> measures = p.measures;
+
+		for (int i = 0; i < measures.size(); i++) {
+			drawMeasure(measures.get(i).number, measures.get(i));
+		}
+	}
+	
+	
 	static void drawMeasure(int measureNumber, Measure m) {
 
 		String measureType="";
@@ -106,19 +120,7 @@ public class UnicodeText {
 		f.setVisible(true);
 	}
 
-	public static void main(String[] args) {
 
-		String input = "";
-
-		Parser parse = new Parser();
-		parse.setInput(input);
-		Part p = parse.getSheetInfo().get(0); // only do the first instrument for now
-		List<Measure> measures = p.measures;
-
-		for (int i = 0; i < measures.size(); i++) {
-			drawMeasure(measures.get(i).number, measures.get(i));
-		}
-	}
 
 }
 
