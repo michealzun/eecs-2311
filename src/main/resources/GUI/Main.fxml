@@ -193,6 +193,23 @@
                               <Font size="9.0" />
                            </font>
                         </Button>
+                        <Separator fx:id="buttonSeperator" orientation="VERTICAL" prefHeight="50.0" prefWidth="1.0" stylesheets="@application.css">
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </Separator>
+                        <Button fx:id="manual" mnemonicParsing="false" onAction="#getManual" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Manual" textFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image_assets/user-manual.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Button>
                      </children>
                   </HBox>
                </children>

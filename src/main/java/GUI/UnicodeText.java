@@ -1,13 +1,8 @@
 package GUI;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.awt.Font;
 
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.util.List;
 
 import javax.swing.JFrame;

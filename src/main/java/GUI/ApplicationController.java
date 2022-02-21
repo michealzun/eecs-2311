@@ -1,18 +1,14 @@
 package GUI;
 
 import java.awt.Desktop;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -36,6 +32,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -47,17 +44,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import parser.Parser;
 
-
 public class ApplicationController implements Initializable {
-
-	private Parser parser;
 
 	@FXML
 	private AnchorPane anchorpane;
 
 	@FXML
 	private BorderPane borderPane;
-
+	  @FXML
+	    private Label textBoxes;
 	// File Path 
 
 	@FXML
@@ -95,6 +90,9 @@ public class ApplicationController implements Initializable {
 	@FXML
 	private Pane centerPane;
 
+	@FXML
+	private TextArea textBox;
+
 	// Button Attributes
 
 	@FXML
@@ -119,16 +117,16 @@ public class ApplicationController implements Initializable {
 
 	boolean isPlaying = false;
 
-	// PDF Attributes	
+	// User Manual
 
-	
-	
+	@FXML
+	private Button manual;
+
+	// Initialization Phase
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		this.parser = new Parser();
 	}
-
-	// WIP
 
 	@FXML
 	void openPDF(ActionEvent event) {
@@ -140,13 +138,6 @@ public class ApplicationController implements Initializable {
 
 			PropertiesManager properties = new PropertiesManager(System.getProperties(),
 					ResourceBundle.getBundle(PropertiesManager.DEFAULT_MESSAGE_BUNDLE));
-
-			//			try {
-			//				  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			//				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-			//				        | UnsupportedLookAndFeelException e) {
-			//				  System.err.println("[ err. ] " + e);
-			//				}
 
 			// Build a SwingViewFactory configured with the controller 
 			SwingViewBuilder factory  = new SwingViewBuilder(controller, properties);
@@ -200,20 +191,25 @@ public class ApplicationController implements Initializable {
 		}
 	}
 
+	@FXML
+	void getManual(ActionEvent event) {
+		try {
+			Desktop.getDesktop().browse(new URI("https://docs.google.com/document/d/19B2OShBREREmkL5LfhucvWfGg3gO6FqC7j-uKiEmPQM/edit"));
+		} catch (IOException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	// File Menu Methods
 
 	@FXML
-	void openFile(ActionEvent event) {
+	void openFile(ActionEvent event) throws SAXException, IOException, ParserConfigurationException {
 		String userDirectory = System.getProperty("user.home");
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(new File(userDirectory + "/Desktop"));
 		Stage stage = (Stage) anchorpane.getScene().getWindow();
 		File file = fileChooser.showOpenDialog(stage);
-	
-		System.out.println(parser.getInstrumentInfo());
-		System.out.println(parser.getSheetInfo());
-		
-
 
 		if (file != null) {
 			Desktop desktop = Desktop.getDesktop();
@@ -256,12 +252,6 @@ public class ApplicationController implements Initializable {
 		alert.setHeaderText("You are about to exit the application!");
 		alert.setContentText("Do you want to save before exiting?");
 
-		/*
-		 * Customize ButtonType
-		 * ButtonType yesBtn = new ButtonType("YES", ButtonData.YES);
-		 * ButtonType noBtn = new ButtonType("NO", ButtonData.CANCEL_CLOSE);
-		 */
-
 		alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
 
 		Optional<ButtonType> result = alert.showAndWait(); 
@@ -275,8 +265,6 @@ public class ApplicationController implements Initializable {
 			System.out.println("Exit request cancelled!");
 		}
 	}
-
-	// Media-Player Methods (Temporary - Plays .mp3 & .wav files)
 
 	@FXML
 	void playAudio(ActionEvent event) {
@@ -305,6 +293,7 @@ public class ApplicationController implements Initializable {
 
 	@FXML
 	void playPauseBtnImage(MouseEvent event) {
+		// WIP
 		if (isPlaying == false) {
 			this.playPauseImage.setImage(new Image("image_assets/play.png"));
 			this.playPauseButton.setText("Play");
