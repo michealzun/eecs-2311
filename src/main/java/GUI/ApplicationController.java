@@ -196,7 +196,7 @@ public class ApplicationController implements Initializable {
 	// File Menu Methods
 
 	@FXML
-	void openFile(ActionEvent event) throws SAXException, IOException, ParserConfigurationException {
+	void openFile(ActionEvent event) {
 		String userDirectory = System.getProperty("user.home");
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(new File(userDirectory + "/Desktop"));
@@ -304,7 +304,6 @@ public class ApplicationController implements Initializable {
 		parser.setInput(input);
 		System.out.println(parser.getInstrumentInfo());
 		System.out.println(parser.getSheetInfo());
-//		System.out.println(parser.getSheetInfo());
 		
 
 

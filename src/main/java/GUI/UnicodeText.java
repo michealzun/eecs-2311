@@ -58,8 +58,8 @@ public class UnicodeText {
 
 	static void drawNote(int noteX, int noteY, Note n) {
 		// Note Location
-		int x = noteX + ???; //+ x of the note in the measure
-		int y = noteY + ???; // + y of the note in the measure
+		int x = noteX + n.duration; 
+		int y = noteY; 
 
 		//WIP
 

@@ -5,10 +5,10 @@ import java.util.List;
 
 public class Measure {
 	public int number;
-	int divisions;
-	int fifth;
-	String clefSigh;
-	int clefLine;
+	public int divisions;
+	public int fifth;
+	public String clefSigh;
+	public int clefLine;
 	public List<Line> lines=new ArrayList<Line>();
 	public List<Note> notes=new ArrayList<Note>();
 	

@@ -1,13 +1,13 @@
 package parser;
 
 public class Note {
-	String step; //eg: C D E F G A B
-	int octave;
-	int duration;
-	int voice;
+	public String step; //eg: C D E F G A B
+	public int octave;
+	public int duration;
+	public int voice;
 	public String type;
-	int string; 
-	int fret; 
+	public int string; 
+	public int fret; 
 	
 	
 }

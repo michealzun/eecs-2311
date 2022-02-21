@@ -35,5 +35,7 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/icepdf"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/a"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/javaFX"/>
 	<classpathentry kind="output" path="bin/default"/>
 </classpath>

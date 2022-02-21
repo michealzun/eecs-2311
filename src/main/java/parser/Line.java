@@ -1,7 +1,7 @@
 package parser;
 
 public class Line {
-	int number;
-	String step; //eg: C D E F G A B
-	String octave;
+	public int number;
+	public String step; //eg: C D E F G A B
+	public String octave;
 }
