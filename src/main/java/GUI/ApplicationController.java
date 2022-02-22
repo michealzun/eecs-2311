@@ -8,7 +8,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import javax.swing.JPanel;
 import javax.xml.parsers.ParserConfigurationException;
 
