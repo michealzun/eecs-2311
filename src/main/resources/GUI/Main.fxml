@@ -55,14 +55,14 @@
          <top>
             <VBox prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox style="-fx-background-color: #1f1e21;" stylesheets="@application.css">
+                  <HBox fx:id="hMenuBar" style="-fx-background-color: #1f1e21;" stylesheets="@application.css">
                      <children>
                         <MenuBar fx:id="menuBar" style="-fx-background-color: #1f1e21;" stylesheets="@application.css" HBox.hgrow="ALWAYS">
                            <menus>
-                              <Menu fx:id="FileBar" mnemonicParsing="false" text="File">
+                              <Menu fx:id="fileBtn" mnemonicParsing="false" text="File">
                                  <items>
-                                    <MenuItem fx:id="open" mnemonicParsing="false" onAction="#openFile" text="Open" />
-                                    <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveFile" text="Save" />
+                                    <MenuItem fx:id="open" mnemonicParsing="false" onAction="#openBtn" text="Open" />
+                                    <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveBtn" text="Save" />
                                     <SeparatorMenuItem mnemonicParsing="false" />
                                     <MenuItem fx:id="exit" mnemonicParsing="false" onAction="#exitApp" text="Exit" />
                                  </items>
@@ -94,9 +94,9 @@
                         </MenuBar>
                      </children>
                   </HBox>
-                  <HBox style="-fx-background-color: #1D1C1F; -fx-border-color: #262428; -fx-border-width: 1 0 1 0;">
+                  <HBox fx:id="hButtonBar" style="-fx-background-color: #1D1C1F; -fx-border-color: #262428; -fx-border-width: 1 0 1 0;">
                      <children>
-                        <Button fx:id="home" mnemonicParsing="false" onAction="#homeBtn" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Home" textFill="WHITE">
+                        <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeBtn" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Home" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -116,7 +116,7 @@
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </Separator>
-                        <Button fx:id="openButton" mnemonicParsing="false" onAction="#openFile" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Open" textFill="WHITE">
+                        <Button fx:id="openButton" mnemonicParsing="false" onAction="#openBtn" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Open" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" scaleY="1.1" scaleZ="1.1">
                                  <image>
@@ -128,7 +128,7 @@
                               <Font size="9.0" />
                            </font>
                         </Button>
-                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveFile" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Save" textFill="WHITE">
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveBtn" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Save" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -140,11 +140,11 @@
                               <Font size="9.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#openPDF" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Config" textFill="WHITE">
+                        <Button fx:id="openPDF" mnemonicParsing="false" onAction="#pdfBtn" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Config" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" scaleZ="1.1">
                                  <image>
-                                    <Image url="@../image_assets/config.png" />
+                                    <Image url="@../image_assets/pdf.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -157,7 +157,7 @@
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </Separator>
-                        <Button fx:id="playPauseButton" mnemonicParsing="false" onAction="#playAudio" onMouseClicked="#playPauseBtnImage" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Play" textFill="WHITE">
+                        <Button fx:id="playPauseButton" mnemonicParsing="false" onAction="#playBtn" onMouseClicked="#playPauseBtnImage" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Play" textFill="WHITE">
                            <graphic>
                               <ImageView fx:id="playPauseImage" fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -169,7 +169,7 @@
                               <Font size="9.0" />
                            </font>
                         </Button>
-                        <Button fx:id="rewindButton" mnemonicParsing="false" onAction="#rewindAudio" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Rewind" textFill="WHITE">
+                        <Button fx:id="rewindButton" mnemonicParsing="false" onAction="#rewindBtn" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Rewind" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -181,7 +181,7 @@
                               <Font size="9.0" />
                            </font>
                         </Button>
-                        <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopAudio" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Stop" textFill="WHITE">
+                        <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopBtn" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Stop" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -198,7 +198,7 @@
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </Separator>
-                        <Button fx:id="manual" mnemonicParsing="false" onAction="#getManual" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Manual" textFill="WHITE">
+                        <Button fx:id="manualButton" mnemonicParsing="false" onAction="#manualBtn" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Manual" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

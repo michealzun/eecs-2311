@@ -1,6 +1,8 @@
 package GUI;
 
 import java.awt.Desktop;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -9,9 +11,9 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.icepdf.ri.common.*;
@@ -34,7 +36,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -42,12 +43,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import parser.Parser;
 
 public class ApplicationController implements Initializable {
+	private String musicXMLString = "";
+	private boolean isPlaying = false;
+	private UnicodeText unicode;
+
+	// Layout UI Attribute(s)
 
 	@FXML
 	private AnchorPane anchorpane;
@@ -55,7 +59,10 @@ public class ApplicationController implements Initializable {
 	@FXML
 	private BorderPane borderPane;
 
-	// File Path 
+	@FXML
+	private Pane centerPane;
+
+	// File Path UI Attribute(s)
 
 	@FXML
 	private Label pathTitle;
@@ -63,16 +70,19 @@ public class ApplicationController implements Initializable {
 	@FXML
 	private Label filePath;
 
-	// Menu Bar Attributes
+	// Menu Bar UI Attribute(s)
 
 	@FXML
 	private MenuBar menuBar;
 
 	@FXML
-	private Menu FileBar;
+	private Menu fileBtn;
 
 	@FXML
-	private HBox hBox;
+	private HBox hButtonBar;
+
+	@FXML
+	private HBox hMenuBar;
 
 	@FXML
 	private Separator buttonSeperator;
@@ -89,13 +99,10 @@ public class ApplicationController implements Initializable {
 	@FXML
 	private MenuItem about;
 
-	@FXML
-	private Pane centerPane;
+	// Button UI Attribute(s)
 
 	@FXML
-	private TextArea textBox;
-
-	// Button Attributes
+	private Button homeButton;
 
 	@FXML
 	private Button openButton;
@@ -104,7 +111,13 @@ public class ApplicationController implements Initializable {
 	private Button saveButton;
 
 	@FXML
+	private Button openPDF;
+
+	@FXML
 	private Button playPauseButton;
+
+	@FXML
+	private ImageView playPauseImage;
 
 	@FXML
 	private Button rewindButton;
@@ -113,34 +126,46 @@ public class ApplicationController implements Initializable {
 	private Button stopButton;
 
 	@FXML
-	private ImageView playPauseImage;
-
-	// Manual Button
-
-	@FXML
-	private Button manual;
-
-	// Audio-Player Attributes
-
-	boolean isPlaying = false;
-
-	String musicXMLString = "";
+	private Button manualButton;
 
 	// Initialization Phase
 
-	@FXML
-	private Button home;
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
+	}
 
-	public void setMusicXMLString(String musicXMLString) {
-		this.musicXMLString = musicXMLString;
+	public void displaySheetMusic(String musicSheet) throws IOException {
+		this.musicXMLString = musicSheet;
+		SwingNode swingNode = new SwingNode();
+		createSwingContent(swingNode);
+		this.centerPane.getChildren().add(swingNode);
+
+	}
+
+	private void createSwingContent(final SwingNode swingNode) {
+		this.unicode = new UnicodeText(musicXMLString);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				swingNode.setContent(unicode);
+			}
+		});
+	}
+
+	// Button Methods
+
+	@FXML
+	private void homeBtn(ActionEvent event) {
+		
 	}
 
 	@FXML
-	void openPDF(ActionEvent event) {
+	private void pdfBtn(ActionEvent event) {
 		try {
 			String filePath = openFile();
 			this.filePath.setText(filePath);
-			// build a controller
+			// Build a controller
 			SwingController controller = new SwingController();
 
 			PropertiesManager properties = new PropertiesManager(System.getProperties(),
@@ -151,9 +176,9 @@ public class ApplicationController implements Initializable {
 			// Use the factory to build a JPanel that is pre-configured with a complete, active Viewer UI.
 			JPanel viewerComponentPanel  = factory.buildViewerPanel();
 			//			controller.setToolBarVisible(false);
-			// add copy keyboard command
+			// Add copy keyboard command
 			ComponentKeyBinding.install(controller, viewerComponentPanel);
-			// add interactive mouse link annotation support via callback
+			// Add interactive mouse link annotation support via callback
 			controller.getDocumentViewController().setAnnotationCallback(
 					new org.icepdf.ri.common.MyAnnotationCallback(controller.getDocumentViewController())
 					);
@@ -166,38 +191,15 @@ public class ApplicationController implements Initializable {
 			stage.show();
 		}
 		catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
-	@FXML
-	void homeBtn(ActionEvent event) throws IOException {
-		
+	public void setMusicXMLString(String musicXMLString) {
+		this.musicXMLString = musicXMLString;
 	}
 
-	private void createSwingContent(final SwingNode swingNode) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				swingNode.setContent(new UnicodeText(musicXMLString).run());
-			}
-		});
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
-	}
-
-	public void displaySheetMusic(String musicSheet) throws IOException {
-		this.musicXMLString = musicSheet;
-		SwingNode swingNode = new SwingNode();
-		createSwingContent(swingNode);
-		this.centerPane.getChildren().add(swingNode);
-
-	}
-
-	public String openFile() {
+	private String openFile() {
 		String userDirectory = System.getProperty("user.home");
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(new File(userDirectory + "/Desktop"));
@@ -207,7 +209,7 @@ public class ApplicationController implements Initializable {
 	}
 
 	@FXML
-	void aboutFile(ActionEvent event) throws IOException {
+	private void aboutFile(ActionEvent event) throws IOException {
 		try {
 			Stage stage = new Stage();
 			Parent root = FXMLLoader.load(getClass().getResource("About.fxml"));
@@ -226,19 +228,17 @@ public class ApplicationController implements Initializable {
 	}
 
 	@FXML
-	void getManual(ActionEvent event) {
+	private void manualBtn(ActionEvent event) {
 		try {
 			Desktop.getDesktop().browse(new URI("https://drive.google.com/file/d/145ux549id4GujhYk7V6eDImr-z0rWSo-/view?usp=sharing"));
-		} catch (IOException | URISyntaxException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
 	}
 
-	// File Menu Methods
-
 	@FXML
-	void openFile(ActionEvent event) throws SAXException, IOException, ParserConfigurationException {
+	private void openBtn(ActionEvent event) throws SAXException, IOException, ParserConfigurationException {
 		String userDirectory = System.getProperty("user.home");
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(new File(userDirectory + "/Desktop"));
@@ -257,30 +257,31 @@ public class ApplicationController implements Initializable {
 	}
 
 	@FXML
-	void saveFile(ActionEvent event) {
-		Stage stage = (Stage) anchorpane.getScene().getWindow();
-		// Creates a File chooser
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setInitialFileName("Untitled");
-		// Extension Filter
-		fileChooser.getExtensionFilters().addAll(
-				new FileChooser.ExtensionFilter("MP3 Audio", "*.mp3"),
-				new FileChooser.ExtensionFilter("WAV Audio", "*.wav"),
-				new FileChooser.ExtensionFilter("PDF", "*.pdf"),
-				new FileChooser.ExtensionFilter("ZIP", "*.zip"),
-				new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif"),
-				new FileChooser.ExtensionFilter("Plain Text", "*.txt")
-				);
-		try {
-			fileChooser.showSaveDialog(stage);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+	private void saveBtn(ActionEvent event) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		unicode.saveImage();
+//		Stage stage = (Stage) anchorpane.getScene().getWindow();
+//		// Creates a File chooser
+//		FileChooser fileChooser = new FileChooser();
+//		fileChooser.setInitialFileName("Untitled");
+//		// Extension Filter
+//		fileChooser.getExtensionFilters().addAll(
+//				new FileChooser.ExtensionFilter("MP3 Audio", "*.mp3"),
+//				new FileChooser.ExtensionFilter("WAV Audio", "*.wav"),
+//				new FileChooser.ExtensionFilter("PDF", "*.pdf"),
+//				new FileChooser.ExtensionFilter("ZIP", "*.zip"),
+//				new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif"),
+//				new FileChooser.ExtensionFilter("Plain Text", "*.txt")
+//				);
+//		try {
+//			fileChooser.showSaveDialog(stage);
+//		}
+//		catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	@FXML
-	void exitApp(ActionEvent event) {
+	private void exitApp(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Music Previewer");
 		alert.setHeaderText("You are about to exit the application!");
@@ -300,8 +301,10 @@ public class ApplicationController implements Initializable {
 		}
 	}
 
+	// Media Methods
+
 	@FXML
-	void playAudio(ActionEvent event) {
+	private void playBtn(ActionEvent event) {
 		if (isPlaying) {
 			// WIP
 			isPlaying = false;
@@ -313,12 +316,12 @@ public class ApplicationController implements Initializable {
 	}
 
 	@FXML
-	void rewindAudio(ActionEvent event) {
+	private void rewindBtn(ActionEvent event) {
 		// WIP
 	}
 
 	@FXML
-	void stopAudio(ActionEvent event) {
+	private void stopBtn(ActionEvent event) {
 		// WIP
 		isPlaying = false;
 		this.playPauseImage.setImage(new Image("image_assets/play.png"));
@@ -326,7 +329,7 @@ public class ApplicationController implements Initializable {
 	}
 
 	@FXML
-	void playPauseBtnImage(MouseEvent event) {
+	private void playPauseBtnImage(MouseEvent event) {
 		// WIP
 		if (isPlaying == false) {
 			this.playPauseImage.setImage(new Image("image_assets/play.png"));

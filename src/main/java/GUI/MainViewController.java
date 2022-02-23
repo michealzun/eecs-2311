@@ -311,13 +311,13 @@ public class MainViewController extends Application {
 		Scene scene;
 		Stage stage;
 		
-		// Initial Display (Music Previewer Application)
+		// Initial Display (Music Previewer App)
 		try {
 			stage = new Stage();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
 			root = loader.load();
 			
-			// Display sheet music on centerpane (Communication betweencontrollers MainView & AppController)
+			// Displays sheet music on Centerpane (communication between MainViewController & AppController)
 			ApplicationController appController = loader.getController();
 			appController.displaySheetMusic(converter.getMusicXML());
 			
@@ -335,38 +335,13 @@ public class MainViewController extends Application {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
+		//	stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		//	scene = new Scene(root);
+		//	stage.setScene(scene);
+		//	stage.show();
+		
 		// converter.getMusicXML() returns the MusicXML output as a String
-//		UnicodeText uni = new UnicodeText(converter.getMusicXML());
-//		uni.run();
-
-		//					Parent root;
-		//					Stage stage = new Stage();
-		//					FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
-		//					root = loader.load();
-		//					Scene scene = new Scene(root);
-		//			
-		//			Image icon = new Image("image_assets/icon.png");
-		//			stage.getIcons().add(icon);
-		//			stage.setTitle("Music Previewer");
-		//
-		//			stage.setScene(scene);
-		//			stage.show();
-
-
-
-		//			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
-		//			root = loader.load();
-		//			
-		//			ApplicationController applicationController = loader.getController();
-		//			
-		//			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		//			scene = new Scene(root);
-		//			stage.setScene(scene);
-		//			stage.show();
-
-
-
 	}
 
 	public void refresh() {
