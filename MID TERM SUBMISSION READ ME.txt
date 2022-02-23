@@ -1,0 +1,17 @@
+if you don't see a execuatable, that means we couldn't get a running executable in time. please run the project from eclipse
+
+library setup:
+1. Download JavaFX SDK (https://gluonhq.com/products/javafx/) and extract it (remember the path)
+2. Intall JavaFX plugin (In Eclipse, go to Help -> Eclipse Marketplace -> Search "FX" and install e(fx)clipse)
+3. Create user library (Window -> Preference -> Java Buildpath -> User Libraries -> New -> Name user libary to JavaFX -> Add External Jars -> Go into extracted SDK, selected all executable jarafx files in the "lib" folder -> Apply and Close)
+4. Add user libray (Right click project folder -> Build Path -> Add libraries... -> User library -> selected JavaFX -> Finish)
+5. Configure build path (Right click project folder - Build Path -> Configure Build Path -> Java Build Path -> If JavaFX is not under Classpath, selected Classpath -> Add library -> User libary - JavaFX -> Apply)
+6. Add VM argument (Click click project folder -> Run As -> Run configurations -> Arguments -> Paste under VM arguments -> Apply and Close)
+
+VM arguments:
+Replace the path below with that of your JavaFX-sdk/lib directories path
+Linux/Mac: --module-path /path/to/javafx-sdk-15.0.1/lib --add-modules javafx.controls,javafx.fxml
+WIndows: --module-path "\path\to\javafx-sdk-15.0.1\lib" --add-modules javafx.controls,javafx.fxml
+
+here a video of how to set it up ()
+https://www.youtube.com/watch?v=_7OM-cMYWbQ
