@@ -29,10 +29,12 @@ public class UnicodeText extends JPanel {
 
 	public UnicodeText(String input) {
 		parse.setInput(input);
+		//if(f==null) {
 		f = new JPanel();
 		f.setFont(new Font("Bravura", Font.PLAIN, fontSize));
 		f.setSize(1000,1000);
 		f.setVisible(true);
+		//}
 	}
 
 	public JPanel run() {
