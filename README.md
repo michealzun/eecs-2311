@@ -16,7 +16,7 @@ If an execuatable is not present, that means we could not get one running on tim
 --module-path "src/lib/javafx-sdk-17.0.2/lib" --add-modules javafx.controls,javafx.fxml,javafx.media,javafx.graphics,javafx.web,javafx.swing
 
 
-![VM Arugment![image](https://user-images.githubusercontent.com/24886370/155257434-938e4e1c-ceb4-4dbf-b766-0891a7f5bb82.png)
+![VM Arugment!][image](https://user-images.githubusercontent.com/24886370/155257434-938e4e1c-ceb4-4dbf-b766-0891a7f5bb82.png)
 
 - [Setup video](https://www.youtube.com/watch?v=_7OM-cMYWbQ) note we already have JavaFX folder in the project so it's slightly different
 
