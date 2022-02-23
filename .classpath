@@ -35,5 +35,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/icepdf"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="C:/Users/patri/Downloads/richtextfx-0.10.7.jar"/>
+	<classpathentry kind="lib" path="C:/Users/patri/Desktop/reactfx-2.0-M5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/patri/Downloads/flowless-0.6.8.jar"/>
 	<classpathentry kind="output" path="bin/default"/>
 </classpath>

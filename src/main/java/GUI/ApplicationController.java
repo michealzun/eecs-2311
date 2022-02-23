@@ -9,7 +9,9 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.icepdf.ri.common.*;
@@ -40,6 +42,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import parser.Parser;
@@ -51,8 +54,7 @@ public class ApplicationController implements Initializable {
 
 	@FXML
 	private BorderPane borderPane;
-	  @FXML
-	    private Label textBoxes;
+
 	// File Path 
 
 	@FXML
@@ -113,19 +115,24 @@ public class ApplicationController implements Initializable {
 	@FXML
 	private ImageView playPauseImage;
 
-	// Audio-Player Attributes
-
-	boolean isPlaying = false;
-
-	// User Manual
+	// Manual Button
 
 	@FXML
 	private Button manual;
 
+	// Audio-Player Attributes
+
+	boolean isPlaying = false;
+
+	String musicXMLString = "";
+
 	// Initialization Phase
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	@FXML
+	private Button home;
+
+	public void setMusicXMLString(String musicXMLString) {
+		this.musicXMLString = musicXMLString;
 	}
 
 	@FXML
@@ -163,6 +170,33 @@ public class ApplicationController implements Initializable {
 		}
 	}
 
+	@FXML
+	void homeBtn(ActionEvent event) throws IOException {
+		
+	}
+
+	private void createSwingContent(final SwingNode swingNode) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				swingNode.setContent(new UnicodeText(musicXMLString).run());
+			}
+		});
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+
+	}
+
+	public void displaySheetMusic(String musicSheet) throws IOException {
+		this.musicXMLString = musicSheet;
+		SwingNode swingNode = new SwingNode();
+		createSwingContent(swingNode);
+		this.centerPane.getChildren().add(swingNode);
+
+	}
+
 	public String openFile() {
 		String userDirectory = System.getProperty("user.home");
 		FileChooser fileChooser = new FileChooser();
@@ -194,7 +228,7 @@ public class ApplicationController implements Initializable {
 	@FXML
 	void getManual(ActionEvent event) {
 		try {
-			Desktop.getDesktop().browse(new URI("https://docs.google.com/document/d/19B2OShBREREmkL5LfhucvWfGg3gO6FqC7j-uKiEmPQM/edit"));
+			Desktop.getDesktop().browse(new URI("https://drive.google.com/file/d/145ux549id4GujhYk7V6eDImr-z0rWSo-/view?usp=sharing"));
 		} catch (IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

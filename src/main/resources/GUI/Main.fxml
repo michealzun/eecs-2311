@@ -96,7 +96,7 @@
                   </HBox>
                   <HBox style="-fx-background-color: #1D1C1F; -fx-border-color: #262428; -fx-border-width: 1 0 1 0;">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Home" textFill="WHITE">
+                        <Button fx:id="home" mnemonicParsing="false" onAction="#homeBtn" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Home" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

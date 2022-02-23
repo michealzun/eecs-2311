@@ -1,11 +1,11 @@
 package GUI;
 
 import java.awt.Font;
-
-
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.List;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import parser.Measure;
 import parser.Note;
@@ -13,36 +13,40 @@ import parser.Parser;
 import parser.Part;
 
 
-public class UnicodeText {
-	Parser parse = new Parser();
-	static int measureBarLength = 32;
-	static int measureWidth=400;
-	static int measureSpacing=100;
-	static int measuresPerLine=4;
-	static int fontSize=40;
-	static JFrame f;
-	
+@SuppressWarnings("serial")
+public class UnicodeText extends JPanel {
+	private Parser parse = new Parser();
+	private int measureBarLength = 8;
+	private int measureWidth = 200;
+	private int measureSpacing = 100;
+	private int measuresPerLine = 4;
+	private int fontSize = 47;
+	private JPanel f;
+
+	private int x;
+	private int y;
+	private String noteType = "";
+
 	public UnicodeText(String input) {
 		parse.setInput(input);
-        f = new JFrame();
-        f.setFont(new Font("Bravura", Font.PLAIN, fontSize));
-    f.setSize(4000,4000);
-    f.setVisible(true);
+		f = new JPanel();
+		f.setFont(new Font("Bravura", Font.PLAIN, fontSize));
+		f.setSize(1000,1000);
+		f.setVisible(true);
 	}
-	
-	public void run() {
+
+	public JPanel run() {
 		Part p = parse.getSheetInfo().get(0); // only do the first instrument for now
 		List<Measure> measures = p.measures;
 
 		for (int i = 0; i < measures.size(); i++) {
-			drawMeasure(measures.get(i).number, measures.get(i));
+			drawMeasure(measures.get(i));
 		}
+		return f;
 	}
-	
-	
-	static void drawMeasure(int measureNumber, Measure m) {
 
-		String measureType="";
+	private void drawMeasure(Measure m) {
+		String measureType = "";
 		switch(m.lines.size()) {
 		case 1:
 			measureType="\uD834\uDD16";
@@ -63,22 +67,32 @@ public class UnicodeText {
 			measureType="\uD834\uDD1B";
 			break;
 		}
+		int measureStartingX = 100 + measureWidth * ((m.number-1) % measuresPerLine);
+		int measureStartingY = 100 + measureSpacing * ((m.number-1) / measuresPerLine);
 
 		for(int i = 0; i < measureBarLength; i++) {
-			drawString(measureType, 10 + measureWidth * (measureNumber % measuresPerLine) + i * 30, 100 + measureSpacing * (measureNumber / measuresPerLine));
+			System.out.println(measureStartingX + i * 50 +7);
+			drawString(measureType, measureStartingX + i * 23 +7, measureStartingY);
 		}
+		// Measure Seps
+		if((m.number-1) % measuresPerLine == 0) {
+			drawString("\uD834\uDD00",measureStartingX, measureStartingY-10);
+			drawString("\uD834\uDD00",measureStartingX, measureStartingY+10);
+		}
+		drawString("\uD834\uDD00",measureStartingX+measureSpacing*2, measureStartingY-10);
+		drawString("\uD834\uDD00",measureStartingX+measureSpacing*2, measureStartingY+10);
 
 		for (int i = 0; i < m.notes.size(); i++)  {
-			drawNote(10 + measureWidth * (measureNumber % measuresPerLine), 100 + measureSpacing * (measureNumber / measuresPerLine), m.notes.get(i));
+			drawNote(measureStartingX, measureStartingY, m.notes.get(i));
 		}
 	}
 
-	static void drawNote(int noteX, int noteY, Note n) {
+	private void drawNote(int noteX, int noteY, Note n) {
 		// Note Location
-		int x = noteX + n.duration; 
+		int x = noteX; 
 		int y = noteY; 
-
-		//WIP
+		
+		// WIP
 
 		// Note Type
 		String noteType="";
@@ -102,16 +116,26 @@ public class UnicodeText {
 			noteType="\uD834\uDD62";
 			break;
 		}
+		
 		drawString(noteType, x, y);
 	}
 
-	private static void drawString(String noteType, int x, int y) {
 
-		f.getGraphics().drawString(noteType, x, y);
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g.create();
+		// Draw Text
+		g2d.drawString(noteType, x, y);
+		g2d.dispose();
+	}  
 
+	private void drawString(String noteType, int x, int y) {
+		this.x = x;
+		this.y = y;
+		this.noteType = noteType;
+		repaint();
+		//		f.getGraphics().drawString(noteType, x, y);
 	}
-
-
 
 }
 
