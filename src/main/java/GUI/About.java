@@ -4,7 +4,6 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-d
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 

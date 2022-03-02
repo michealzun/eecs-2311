@@ -35,7 +35,7 @@ public class UnicodeText extends Pane {
 	    // Get the graphics context of the canvas
 	    gc = canvas.getGraphicsContext2D();
 	    gc.setFont(new Font("Bravura", fontSize));
-	    
+	   
 	    // Draw Text
 		Part p = parse.getSheetInfo().get(0); // only do the first instrument for now
 		List<Measure> measures = p.measures;
@@ -57,23 +57,8 @@ public class UnicodeText extends Pane {
 	    this.getChildren().add(canvas); 
 	}
 
-//	public void saveImage() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-//		// WIP
-//		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//		JFileChooser fileChooser = new JFileChooser();
-//		fileChooser.setFileFilter(new FileNameExtensionFilter("*.jpg", "jpg"));
-//		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-//			try { 
-//				ImageIO.write(paintImage, "jpg", fileChooser.getSelectedFile());
-//			} catch (IOException ex) {
-//				System.out.println("Failed to save image!");
-//			}
-//		} else {
-//			System.out.println("No file choosen!");
-//		}
-//	}
-
 	private void drawMeasure(Measure m) {
+		
 		String measureType = "";
 		switch(m.lines.size()) {
 		case 1:
@@ -109,9 +94,12 @@ public class UnicodeText extends Pane {
 		}
 		 gc.fillText("\uD834\uDD00",measureStartingX+measureSpacing*2, measureStartingY-10);
 		 gc.fillText("\uD834\uDD00",measureStartingX+measureSpacing*2, measureStartingY+10);
-
+		
+		 int xDisplacement=0;
+		 
 		for (int i = 0; i < m.notes.size(); i++)  {
-			drawNote(measureStartingX, measureStartingY, m.notes.get(i));
+			drawNote(measureStartingX+xDisplacement, measureStartingY, m.notes.get(i));
+			xDisplacement+=(m.notes.get(i).duration/m.divisions*measureWidth);
 		}
 	}
 
