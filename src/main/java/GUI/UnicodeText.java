@@ -38,12 +38,9 @@ public class UnicodeText extends Pane {
 	   
 	    // Draw Text
 		Part p = parse.getSheetInfo().get(0); // only do the first instrument for now
-		List<Measure> measures = p.measures;
+		determineMode(p);
 		
-		for (int i = 0; i < measures.size(); i++) {
-			drawMeasure(measures.get(i));
-		}
-	    
+		
 	    // Set the Style-properties of the Pane
 	    this.setStyle("-fx-padding: 10;" +
 	            "-fx-border-style: solid inside;" +
@@ -56,9 +53,23 @@ public class UnicodeText extends Pane {
 	    // Add the Canvas to the Pane
 	    this.getChildren().add(canvas); 
 	}
+	
+	
+	private void determineMode(Part p) {
+		//always default to five line staff for now
+		switch(p.id) {
+			default: 
+				List<Measure> measures = p.measures;
+				for (int i = 0; i < measures.size(); i++) {
+					drawMeasureStandard(measures.get(i));
+				}
+				break;
+				
+		}
+	}
 
-	private void drawMeasure(Measure m) {
-		
+	private void drawMeasureStandard(Measure m) {
+		/*
 		String measureType = "";
 		switch(m.lines.size()) {
 		case 1:
@@ -74,20 +85,29 @@ public class UnicodeText extends Pane {
 			measureType="\uD834\uDD19";
 			break;
 		case 5:
-			measureType="\uD834\uDD1A";
+			
 			break;
 		case 6:
 			measureType="\uD834\uDD1B";
 			break;
 		}
+		*/
+		
+		
+		String measureType="\uD834\uDD1A";
 		int measureStartingX = 100 + measureWidth * ((m.number-1) % measuresPerLine);
 		int measureStartingY = 100 + measureSpacing * ((m.number-1) / measuresPerLine);
-
+		
+		//draw treble clef
+		if(m.number==1) {
+			 gc.fillText("\uD83C\uDFBC", measureStartingX-45 , measureStartingY+2);
+		}
+		
+		//draw line for each measure
 		for(int i = 0; i < measureBarLength; i++) {
-			System.out.println(measureStartingX + i * 50 +7);
 			 gc.fillText(measureType, measureStartingX + i * 23 +7, measureStartingY);
 		}
-		// Measure Seps
+		// draw measure separation line
 		if((m.number-1) % measuresPerLine == 0) {
 			 gc.fillText("\uD834\uDD00",measureStartingX, measureStartingY-10);
 			 gc.fillText("\uD834\uDD00",measureStartingX, measureStartingY+10);
@@ -95,17 +115,18 @@ public class UnicodeText extends Pane {
 		 gc.fillText("\uD834\uDD00",measureStartingX+measureSpacing*2, measureStartingY-10);
 		 gc.fillText("\uD834\uDD00",measureStartingX+measureSpacing*2, measureStartingY+10);
 		
+		 
+		 //draw each note
 		 int xDisplacement=0;
 		 
 		for (int i = 0; i < m.notes.size(); i++)  {
-			drawNote(measureStartingX+xDisplacement, measureStartingY, m.notes.get(i));
+			drawNoteStandard(measureStartingX+xDisplacement, measureStartingY, m.notes.get(i));
 			xDisplacement+=(m.notes.get(i).duration/m.divisions*measureWidth);
 		}
 	}
 
-	private void drawNote(int noteX, int noteY, Note n) {
+	private void drawNoteStandard(int x, int noteY, Note n) {
 		// Note Location
-		int x = noteX; 
 		int y = noteY; 
 
 		// WIP
