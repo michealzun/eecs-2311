@@ -101,20 +101,26 @@ public class UnicodeText extends Pane {
 		//draw treble clef
 		if(m.number==1) {
 			 gc.fillText("\uD83C\uDFBC", measureStartingX-45 , measureStartingY+2);
+			 gc.fillText("\uD834\uDD22", measureStartingX-45 , measureStartingY+62);
+			 gc.fillText(measureType,  measureStartingX-45 , measureStartingY+62);
 		}
 		
 		//draw line for each measure
 		for(int i = 0; i < measureBarLength; i++) {
 			 gc.fillText(measureType, measureStartingX + i * 23 +7, measureStartingY);
+			 gc.fillText(measureType, measureStartingX + i * 23 +7, measureStartingY+60);
 		}
 		// draw measure separation line
 		if((m.number-1) % measuresPerLine == 0) {
 			 gc.fillText("\uD834\uDD00",measureStartingX, measureStartingY-10);
 			 gc.fillText("\uD834\uDD00",measureStartingX, measureStartingY+10);
+			 gc.fillText("\uD834\uDD00",measureStartingX, measureStartingY+50);
+			 gc.fillText("\uD834\uDD00",measureStartingX, measureStartingY+70);
 		}
 		 gc.fillText("\uD834\uDD00",measureStartingX+measureSpacing*2, measureStartingY-10);
 		 gc.fillText("\uD834\uDD00",measureStartingX+measureSpacing*2, measureStartingY+10);
-		
+		 gc.fillText("\uD834\uDD00",measureStartingX+measureSpacing*2, measureStartingY+50);
+		 gc.fillText("\uD834\uDD00",measureStartingX+measureSpacing*2, measureStartingY+70);
 		 
 		 //draw each note
 		 int xDisplacement=0;
