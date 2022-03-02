@@ -121,7 +121,7 @@ public class UnicodeText extends Pane {
 		 
 		for (int i = 0; i < m.notes.size(); i++)  {
 			drawNoteStandard(measureStartingX+xDisplacement, measureStartingY, m.notes.get(i));
-			xDisplacement+=(m.notes.get(i).duration*measureWidth/m.divisions);
+			xDisplacement+=(int)((float)m.notes.get(i).duration)*((float)measureWidth)/((float)m.divisions*4);
 		}
 	}
 
