@@ -125,12 +125,32 @@ public class UnicodeText extends Pane {
 		}
 	}
 
-	private void drawNoteStandard(int x, int noteY, Note n) {
+	private void drawNoteStandard(int x, int y, Note n) {
 		// Note Location
-		int y = noteY; 
-
-		// WIP
-
+		int yDisplacement=n.octave*7;
+		switch(n.step){
+			case "B":
+				yDisplacement+=1;
+				break;
+			case "C":
+				yDisplacement+=2;
+				break;
+			case "D":
+				yDisplacement+=3;
+				break;
+			case "E":
+				yDisplacement+=4;
+				break;
+			case "F":
+				yDisplacement+=5;
+				break;
+			case "G":
+				yDisplacement+=6;
+				break;
+			default:
+				break;
+		}
+		y+=yDisplacement*5;
 		// Note Type
 		String noteType="";
 		switch(n.type) {
