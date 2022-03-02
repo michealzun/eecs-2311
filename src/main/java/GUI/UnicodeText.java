@@ -150,7 +150,7 @@ public class UnicodeText extends Pane {
 			default:
 				break;
 		}
-		y+=yDisplacement*5;
+		y-=yDisplacement*5-165;
 		// Note Type
 		String noteType="";
 		switch(n.type) {
