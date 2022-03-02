@@ -1,8 +1,6 @@
 package GUI;
 
 import java.awt.Desktop;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -12,7 +10,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -135,22 +132,11 @@ public class ApplicationController implements Initializable {
 		
 	}
 
-	public void displaySheetMusic(String musicSheet) throws IOException {
+	public void displaySheetMusic(String musicSheet) {
 		this.musicXMLString = musicSheet;
-		SwingNode swingNode = new SwingNode();
-		createSwingContent(swingNode);
-		this.centerPane.getChildren().add(swingNode);
-
-	}
-
-	private void createSwingContent(final SwingNode swingNode) {
 		this.unicode = new UnicodeText(musicXMLString);
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				swingNode.setContent(unicode);
-			}
-		});
+		this.centerPane.getChildren().add(unicode);
+
 	}
 
 	// Button Methods
@@ -206,7 +192,7 @@ public class ApplicationController implements Initializable {
 		Stage stage = (Stage) anchorpane.getScene().getWindow();
 		File file = fileChooser.showOpenDialog(stage);
 		return file.getAbsolutePath();
-	}
+	} 
 
 	@FXML
 	private void aboutFile(ActionEvent event) throws IOException {
@@ -258,7 +244,7 @@ public class ApplicationController implements Initializable {
 
 	@FXML
 	private void saveBtn(ActionEvent event) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		unicode.saveImage();
+//		unicode.saveImage();
 //		Stage stage = (Stage) anchorpane.getScene().getWindow();
 //		// Creates a File chooser
 //		FileChooser fileChooser = new FileChooser();
