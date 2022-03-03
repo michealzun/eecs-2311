@@ -135,28 +135,29 @@ public class UnicodeText extends Pane {
 		// Note Location
 		int yDisplacement=n.octave*7;
 		switch(n.step){
-			case "B":
+			case "D":
 				yDisplacement+=1;
 				break;
-			case "C":
+			case "E":
 				yDisplacement+=2;
 				break;
-			case "D":
+			case "F":
 				yDisplacement+=3;
 				break;
-			case "E":
+			case "G":
 				yDisplacement+=4;
 				break;
-			case "F":
+			case "A":
 				yDisplacement+=5;
 				break;
-			case "G":
+			case "B":
 				yDisplacement+=6;
 				break;
 			default:
+				//case C
 				break;
 		}
-		y-=yDisplacement*5-165;
+		y+=155-yDisplacement*5;
 		// Note Type
 		String noteType="";
 		switch(n.type) {
