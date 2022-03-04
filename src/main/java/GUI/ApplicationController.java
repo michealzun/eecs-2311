@@ -8,8 +8,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Sequencer;
 import javax.swing.JPanel;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -46,14 +47,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ApplicationController extends Application implements Initializable /*, ActionListener*/ {
-	// Class Attribute(s)
+
 	private MusicPlayer musicPlayer;
 	private UnicodeText unicode;
 	private String musicXMLString = "";
+	private boolean played = false;
 	private boolean isPlaying = false;
 
-
-	// Layout UI Attribute(s)
+	// UI Layout Attribute(s)
 
 	@FXML
 	private AnchorPane anchorpane;
@@ -64,7 +65,7 @@ public class ApplicationController extends Application implements Initializable 
 	@FXML
 	private Pane centerPane;
 
-	// File Path UI Attribute(s)
+	// UI File Path Attribute(s)
 
 	@FXML
 	private Label pathTitle;
@@ -72,7 +73,7 @@ public class ApplicationController extends Application implements Initializable 
 	@FXML
 	private Label filePath;
 
-	// Menu Bar UI Attribute(s)
+	// UI Menu Bar Attribute(s)
 
 	@FXML
 	private MenuBar menuBar;
@@ -101,7 +102,7 @@ public class ApplicationController extends Application implements Initializable 
 	@FXML
 	private MenuItem about;
 
-	// Button UI Attribute(s)
+	// UI Button Attribute(s)
 
 	@FXML
 	private Button homeButton;
@@ -129,10 +130,14 @@ public class ApplicationController extends Application implements Initializable 
 
 	@FXML
 	private Button manualButton;
-	
+
 	// Initialization Phase
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+	}
+
+	public void setMusicXMLString(String musicSheet) {
+		musicXMLString = musicSheet;
 	}
 
 	public void displaySheetMusic(String musicSheet) {
@@ -144,33 +149,15 @@ public class ApplicationController extends Application implements Initializable 
 		try {
 			musicPlayer = new MusicPlayer(musicSheet);
 		} catch (ParserConfigurationException | MidiUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
-//	@Override
-//	public void actionPerformed(java.awt.event.ActionEvent e) {
-//		if (e.getSource() == playPauseButton) {
-//			try {
-//				playBtn();
-//			} catch (ParserConfigurationException | MidiUnavailableException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//			//			new Thread() {
-//			//				run () {
-//			//					this.playBtn();
-//			//				}
-//			//			}
-//		}
-//	}
 
 	// Button Methods
 
 	@FXML
 	private void homeBtn(ActionEvent event) {
-
+		
 	}
 
 	@FXML
@@ -206,10 +193,6 @@ public class ApplicationController extends Application implements Initializable 
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void setMusicXMLString(String musicXMLString) {
-		this.musicXMLString = musicXMLString;
 	}
 
 	private String openFile() {
@@ -296,9 +279,9 @@ public class ApplicationController extends Application implements Initializable 
 	@FXML
 	private void exitApp(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Music Previewer");
+		alert.setTitle("Sheet Music Previewer");
 		alert.setHeaderText("You are about to exit the application!");
-		alert.setContentText("Do you want to save before exiting?");
+		alert.setContentText("Do you want to save the sheet music before exiting?");
 
 		alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
 
@@ -314,41 +297,48 @@ public class ApplicationController extends Application implements Initializable 
 		}
 	}
 
-	// Media Methods
-
+	// Media Controls
+	
 	@FXML
-	public void playBtn() throws ParserConfigurationException, MidiUnavailableException {
-		new Thread( ()->{
-			musicPlayer.run();
-		}).start();
+	public void playBtn() throws ParserConfigurationException, MidiUnavailableException, InvalidMidiDataException {
+		if (!played) {
+			new Thread( ()->{
+				musicPlayer.run();
+				try {
+					musicPlayer.play();
+				} catch (InvalidMidiDataException | MidiUnavailableException e) {
+					e.printStackTrace();
+				}
+			}).start();
+			played = true;
+			isPlaying = true;
+		}
+		else if (isPlaying) {
+			musicPlayer.pause();
+			isPlaying = false;
+		}
+		else {
+			musicPlayer.resume();
+			isPlaying = true;
+		}
 	}
-	//		if (isPlaying) {
-	//			// WIP
-	//			isPlaying = false;
-	//		}
-	//		else {
-	//			// WIP
-	//			isPlaying = true;
-	//		}
 
 	@FXML
 	private void rewindBtn(ActionEvent event) {
-		this.musicPlayer.manager.getManagedPlayer().seek(0);
+		musicPlayer.rewind();
 	}
 
 	@FXML
-	private void stopBtn(ActionEvent event) {
-		this.musicPlayer.manager.getManagedPlayer().finish();
-		// WIP
-		//		isPlaying = false;
-		//		this.playPauseImage.setImage(new Image("image_assets/play.png"));
-		//		this.playPauseButton.setText("Play");
+	private void stopBtn(ActionEvent event) throws MidiUnavailableException {
+		musicPlayer.stop();
+		playPauseImage.setImage(new Image("image_assets/play.png"));
+		playPauseButton.setText("Play");
+		isPlaying = false;
 	}
 
 	@FXML
 	private void playPauseBtnImage(MouseEvent event) {
-		// WIP
-		if (isPlaying == false) {
+		if (!isPlaying) {
 			this.playPauseImage.setImage(new Image("image_assets/play.png"));
 			this.playPauseButton.setText("Play");
 		}

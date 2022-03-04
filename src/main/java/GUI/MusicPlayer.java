@@ -21,32 +21,27 @@ import nu.xom.ParsingException;
 import utility.Settings;
 
 public class MusicPlayer {
-	//	MusicXmlParser parser;	
-	//	MidiParserListener midilistener;
-	//	Sequencer sequencer;
-	String musicXMLString;
-	Sequencer sequencer;
-	boolean isPlaying = false;
-	Player manager = new Player();
+	private Player manager;
+	private Sequencer sequencer;
+	private Sequence sequence;
+	private String musicXMLString;
+	private boolean stopped = false;
 
 	public MusicPlayer(String XMLString) throws ParserConfigurationException, MidiUnavailableException {
-		//		parser = new MusicXmlParser();
-		//		midilistener = new MidiParserListener();
-		//		sequencer = MidiSystem.getSequencer();
-		this.musicXMLString = XMLString;
+		manager = new Player();
 		sequencer = MidiSystem.getSequencer();
-
+		musicXMLString = XMLString;
 	}
 
 	public void run() {
 		try {
-			// MusicXmlParser parses a MusicXML String
+			// MusicXmlParser Parses XMLString
 			MusicXmlParser parser = new MusicXmlParser();		
 			MidiParserListener listener = new MidiParserListener();
 			parser.addParserListener(listener);
 			parser.parse(musicXMLString);
 
-			// Get the default Sequencer
+			// Retrieve default Sequencer
 			if (sequencer == null) {
 				System.err.println("Sequencer device not supported");
 				return;
@@ -57,7 +52,7 @@ public class MusicPlayer {
 			}
 
 			// Create Sequence
-			Sequence sequence = listener.getSequence();
+			sequence = listener.getSequence();
 			Track track = sequence.createTrack();
 			if (Settings.getInstance().getInstrument().equals(Instrument.GUITAR)) {
 				/*
@@ -86,13 +81,49 @@ public class MusicPlayer {
 			else {
 				System.err.println("Instrument not recognized");
 			} 
-			// Load sequence into sequencer
+			// Load Sequence into Sequencer
 			sequencer.setSequence(sequence);
-			// Start playback
-			//				sequencer.start();
-			manager.play(sequence);
+			// Start Playback
+
 		} catch (MidiUnavailableException | InvalidMidiDataException | IOException | ParserConfigurationException | ParsingException ex) {
 			ex.printStackTrace();
+		}
+	}
+
+	// Play Player
+	public void play() throws InvalidMidiDataException, MidiUnavailableException {
+		manager.getManagedPlayer().start(sequence);
+	}
+	
+	// Pause Player
+	public void pause() throws MidiUnavailableException {
+		manager.getManagedPlayer().pause();
+		sequencer.close();
+	}
+
+	// Rewind Player
+	public void rewind() {
+		manager.getManagedPlayer().seek(0);
+	}
+
+	// Stop Player
+	public void stop() throws MidiUnavailableException {
+		manager.getManagedPlayer().finish();
+		stopped = true;
+	}
+
+	// Resume Player
+	public void resume() throws InvalidMidiDataException {
+		try {
+			if (stopped == false) {
+				sequencer.open();
+				manager.getManagedPlayer().resume();
+			}
+			else {
+				play();
+			}
+		} catch (MidiUnavailableException e) {
+			e.printStackTrace();
 		}
 	}
 
