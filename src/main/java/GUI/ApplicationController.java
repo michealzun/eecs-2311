@@ -8,32 +8,16 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import java.util.prefs.Preferences;
-
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Synthesizer;
-import javax.sound.midi.Track;
 import javax.swing.JPanel;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.icepdf.ri.common.*;
 import org.icepdf.ri.util.PropertiesManager;
-import org.jfugue.integration.MusicXmlParser;
-import org.jfugue.midi.MidiParserListener;
-import org.jfugue.player.Player;
 import org.xml.sax.SAXException;
 
-import converter.Instrument;
 import javafx.application.Application;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
@@ -60,14 +44,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import nu.xom.ParsingException;
-import nu.xom.ValidityException;
-import utility.Settings;
 
-public class ApplicationController extends Application implements Initializable  {
+public class ApplicationController extends Application implements Initializable /*, ActionListener*/ {
+	// Class Attribute(s)
+	private MusicPlayer musicPlayer;
+	private UnicodeText unicode;
 	private String musicXMLString = "";
 	private boolean isPlaying = false;
-	private UnicodeText unicode;
+
 
 	// Layout UI Attribute(s)
 
@@ -145,20 +129,42 @@ public class ApplicationController extends Application implements Initializable 
 
 	@FXML
 	private Button manualButton;
-
+	
 	// Initialization Phase
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 	}
 
 	public void displaySheetMusic(String musicSheet) {
-		this.musicXMLString = musicSheet;
-		this.unicode = new UnicodeText(musicXMLString);
-		this.centerPane.getChildren().add(unicode);
-
+		// Retrieve, Parse and Display XMLString 
+		musicXMLString = musicSheet;
+		unicode = new UnicodeText(musicXMLString);
+		centerPane.getChildren().add(unicode);
+		// Initializes Sheet Music Player
+		try {
+			musicPlayer = new MusicPlayer(musicSheet);
+		} catch (ParserConfigurationException | MidiUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+
+//	@Override
+//	public void actionPerformed(java.awt.event.ActionEvent e) {
+//		if (e.getSource() == playPauseButton) {
+//			try {
+//				playBtn();
+//			} catch (ParserConfigurationException | MidiUnavailableException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//			//			new Thread() {
+//			//				run () {
+//			//					this.playBtn();
+//			//				}
+//			//			}
+//		}
+//	}
 
 	// Button Methods
 
@@ -265,9 +271,6 @@ public class ApplicationController extends Application implements Initializable 
 
 	@FXML
 	private void saveBtn(ActionEvent event) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		
-		
-		
 		//		unicode.saveImage();
 		//		Stage stage = (Stage) anchorpane.getScene().getWindow();
 		//		// Creates a File chooser
@@ -314,84 +317,32 @@ public class ApplicationController extends Application implements Initializable 
 	// Media Methods
 
 	@FXML
-	public void playBtn() {
-		try {
-			// MusicXmlParser parses a MusicXML String
-			MusicXmlParser parser = new MusicXmlParser();		
-			MidiParserListener listener = new MidiParserListener();
-			parser.addParserListener(listener);
-			parser.parse(musicXMLString);
-
-			// Get the default Sequencer
-			Sequencer sequencer = MidiSystem.getSequencer();
-			if (sequencer == null) {
-				System.err.println("Sequencer device not supported");
-				return;
-			} 
-			else {
-				// Open device
-				sequencer.open();
-			}
-			
-			// Create Sequence
-			Sequence sequence = listener.getSequence();
-			Track track = sequence.createTrack();
-			if (Settings.getInstance().getInstrument().equals(Instrument.GUITAR)) {
-				// MidiEvent instrumentChange = new MidiEvent(ShortMessage.PROGRAM_CHANGE,drumPatch.getBank(),drumPatch.getProgram());
-//				Synthesizer synthesizer = MidiSystem.getSynthesizer();
-//				synthesizer.open();
-//				javax.sound.midi.Instrument[] instruments = synthesizer.getDefaultSoundbank().getInstruments();
-//				for (javax.sound.midi.Instrument i : instruments)
-//					System.out.println(i);
-				// javax.sound.midi.Instrument[] instruments = synthesizer.getDefaultSoundbank().getInstruments();
-//				MidiChannel guitarChannel = synthesizer.getChannels()[0];
-//				guitarChannel.programChange(instruments[25].getPatch().getProgram());
-
-				ShortMessage instrument = new ShortMessage(ShortMessage.PROGRAM_CHANGE, 0, 24, 0);
-				track.add(new MidiEvent(instrument, 0));
-			}
-			else if (Settings.getInstance().getInstrument().equals(Instrument.BASS)) {
-				ShortMessage instrument = new ShortMessage(ShortMessage.PROGRAM_CHANGE, 0, 32, 0);
-				track.add(new MidiEvent(instrument, 1));
-			}
-			else if (Settings.getInstance().getInstrument().equals(Instrument.DRUMS)) {
-				ShortMessage instrument = new ShortMessage(ShortMessage.PROGRAM_CHANGE, 0, 118, 0);
-				track.add(new MidiEvent(instrument, 1));
-			}
-			else {
-				System.out.println("Instrument not recognized");
-			}
-			// Load sequence into sequencer
-			sequencer.setSequence(sequence);
-			// Start playback
-			Player player = new Player();
-			player.play(sequencer.getSequence());
-			sequencer.close();
-		} catch (MidiUnavailableException | InvalidMidiDataException | IOException | ParserConfigurationException | ParsingException ex) {
-			ex.printStackTrace();
-		}
-
-		//		if (isPlaying) {
-		//			// WIP
-		//			isPlaying = false;
-		//		}
-		//		else {
-		//			// WIP
-		//			isPlaying = true;
-		//		}
+	public void playBtn() throws ParserConfigurationException, MidiUnavailableException {
+		new Thread( ()->{
+			musicPlayer.run();
+		}).start();
 	}
+	//		if (isPlaying) {
+	//			// WIP
+	//			isPlaying = false;
+	//		}
+	//		else {
+	//			// WIP
+	//			isPlaying = true;
+	//		}
 
 	@FXML
 	private void rewindBtn(ActionEvent event) {
-		// WIP
+		this.musicPlayer.manager.getManagedPlayer().seek(0);
 	}
 
 	@FXML
 	private void stopBtn(ActionEvent event) {
+		this.musicPlayer.manager.getManagedPlayer().finish();
 		// WIP
-		isPlaying = false;
-		this.playPauseImage.setImage(new Image("image_assets/play.png"));
-		this.playPauseButton.setText("Play");
+		//		isPlaying = false;
+		//		this.playPauseImage.setImage(new Image("image_assets/play.png"));
+		//		this.playPauseButton.setText("Play");
 	}
 
 	@FXML
@@ -410,7 +361,6 @@ public class ApplicationController extends Application implements Initializable 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -320,57 +320,6 @@ public class MainViewController extends Application {
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
 		}
 	}
-	
-//	@FXML
-//	public void playBtn1() throws ParserConfigurationException, ValidityException, ParsingException, InvalidMidiDataException, MidiUnavailableException{
-////		Parent root;
-//		try {
-////			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Main.fxml"));
-////			root = loader.load();
-////			PlayMusicController controller = loader.getController();
-////			controller.setMainViewController(this);
-//
-//			//----------------------------------------------------------------------------------------------------------
-//			MusicXmlParser parser = new MusicXmlParser();		
-//			MidiParserListener midilistener = new MidiParserListener();
-//			parser.addParserListener(midilistener);
-//			parser.parse(converter.getMusicXML());
-//
-//			// ManagedPlayer or Sequencer (Sequencer can play multiple noes simultaneously
-//			//				ManagedPlayer player = new ManagedPlayer();
-//			Sequencer sequencer = MidiSystem.getSequencer();
-//			sequencer.open();
-//
-//			Sequence sequence = midilistener.getSequence();
-//			Track track = sequence.createTrack();
-//
-//			if(Settings.getInstance().getInstrument() == Instrument.DRUMS) {
-//
-//			}
-//			else if (Settings.getInstance().getInstrument() == Instrument.GUITAR) {
-//				ShortMessage sm = new ShortMessage();
-//				sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, 24, 0);
-//				track.add(new MidiEvent(sm, 1));
-//				System.out.println("Size of track: " + track.size());
-//			}
-//			sequencer.setSequence(sequence);
-//			sequencer.start();
-//			System.out.println("done playing");
-//			//----------------------------------------------------------------------------------------------------------
-//			//				convertWindow = this.openNewWindow(root, "Play Music");
-//		} catch (IOException e) {
-//			Logger logger = Logger.getLogger(getClass().getName());
-//			logger.log(Level.SEVERE, "Failed to create new Window.", e);
-//		}
-//		//		if (isPlaying) {
-//		//			// WIP
-//		//			isPlaying = false;
-//		//		}
-//		//		else {
-//		//			// WIP
-//		//			isPlaying = true;
-//		//		}
-//	}
 
 	@FXML
 	private void previewButtonHandle() throws IOException {
@@ -378,7 +327,7 @@ public class MainViewController extends Application {
 		Scene scene;
 		Stage stage;
 		
-		// Initial Display (Music Previewer App)
+		// Initialize Previewer Application
 		try {
 			stage = new Stage();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
@@ -393,23 +342,14 @@ public class MainViewController extends Application {
 			// Application Attributes (Name, Icon, etc.)
 			Image icon = new Image("image_assets/icon.png");
 			stage.getIcons().add(icon);
-			stage.setTitle("Music Previewer");
+			stage.setTitle("Sheet Music Previewer");
 
 			stage.setScene(scene);
 			stage.show();
-//			playBtn1();
 		}
-
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		//	stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		//	scene = new Scene(root);
-		//	stage.setScene(scene);
-		//	stage.show();
-		
-		// converter.getMusicXML() returns the MusicXML output as a String
 	}
 
 	public void refresh() {
