@@ -8,18 +8,26 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 import javax.swing.JPanel;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.icepdf.ri.common.*;
 import org.icepdf.ri.util.PropertiesManager;
 import org.xml.sax.SAXException;
 
 import javafx.application.Application;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,6 +35,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -36,21 +45,24 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class ApplicationController extends Application implements Initializable /*, ActionListener*/ {
+public class ApplicationController extends Application implements Initializable {
 
 	private MusicPlayer musicPlayer;
 	private UnicodeText unicode;
-	private String musicXMLString = "";
+	private String musicXMLString;
 	private boolean played = false;
 	private boolean isPlaying = false;
 
@@ -134,6 +146,33 @@ public class ApplicationController extends Application implements Initializable 
 	// Initialization Phase
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		tooltip();
+	}
+
+	public void tooltip() {
+		Tooltip homeTip = new Tooltip("Close current window and go to XMLstring input panel");
+		homeButton.setTooltip(homeTip);
+
+		Tooltip openTip = new Tooltip("Open musicXML file");
+		openButton.setTooltip(openTip);
+
+		Tooltip saveButtonTip = new Tooltip("Save musicXML file");
+		saveButton.setTooltip(saveButtonTip);
+
+		Tooltip openPDFTip = new Tooltip("Save sheet music as PDF");
+		openPDF.setTooltip(openPDFTip);
+
+		Tooltip playPauseButtonTip = new Tooltip("Play sheet music player");
+		playPauseButton.setTooltip(playPauseButtonTip);
+
+		Tooltip rewindButtonTip = new Tooltip("Rewind to start of sheet music player");
+		rewindButton.setTooltip(rewindButtonTip);
+
+		Tooltip stopButtonTip = new Tooltip("Stop sheet music player");
+		stopButton.setTooltip(stopButtonTip);
+
+		Tooltip manualButtonTip = new Tooltip("Retrieve user manual");
+		manualButton.setTooltip(manualButtonTip);
 	}
 
 	public void setMusicXMLString(String musicSheet) {
@@ -155,9 +194,11 @@ public class ApplicationController extends Application implements Initializable 
 
 	// Button Methods
 
+	// Close Previewer & Go to Input Panel
 	@FXML
 	private void homeBtn(ActionEvent event) {
-		
+		Stage stage = (Stage) anchorpane.getScene().getWindow();
+		stage.close();
 	}
 
 	@FXML
@@ -188,6 +229,7 @@ public class ApplicationController extends Application implements Initializable 
 			swingNode.setContent(viewerComponentPanel);
 			this.centerPane.getChildren().add(swingNode);
 			Stage stage = (Stage) centerPane.getScene().getWindow();
+			stage.setFullScreen(!stage.isFullScreen());
 			stage.show();
 		}
 		catch (Exception e) {
@@ -254,34 +296,45 @@ public class ApplicationController extends Application implements Initializable 
 
 	@FXML
 	private void saveBtn(ActionEvent event) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		//		unicode.saveImage();
-		//		Stage stage = (Stage) anchorpane.getScene().getWindow();
-		//		// Creates a File chooser
-		//		FileChooser fileChooser = new FileChooser();
-		//		fileChooser.setInitialFileName("Untitled");
-		//		// Extension Filter
-		//		fileChooser.getExtensionFilters().addAll(
-		//				new FileChooser.ExtensionFilter("MP3 Audio", "*.mp3"),
-		//				new FileChooser.ExtensionFilter("WAV Audio", "*.wav"),
-		//				new FileChooser.ExtensionFilter("PDF", "*.pdf"),
-		//				new FileChooser.ExtensionFilter("ZIP", "*.zip"),
-		//				new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif"),
-		//				new FileChooser.ExtensionFilter("Plain Text", "*.txt")
-		//				);
-		//		try {
-		//			fileChooser.showSaveDialog(stage);
-		//		}
-		//		catch (Exception e) {
-		//			e.printStackTrace();
-		//		}
-	}
+		DirectoryChooser dc = new DirectoryChooser();
+		File directory = dc.showDialog(null);
+		if (directory != null) {
+			directory = new File(directory.getAbsolutePath()); // + "/dafaultFilename.extension"
+			}
+	
+		WritableImage nodeshot = unicode.snapshot(new SnapshotParameters(), null);
+		File file = new File("musicXML.png");
 
+		try {
+			ImageIO.write(SwingFXUtils.fromFXImage(nodeshot, null), "png", file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		PDDocument document = new PDDocument();
+		PDPage page = new PDPage();
+		PDImageXObject image;
+		PDPageContentStream content;
+		try {
+			image = PDImageXObject.createFromFile("musicXML.png", document);
+			content = new PDPageContentStream(document, page);
+			content.drawImage(image, 0, 200);
+			content.close();
+			document.addPage(page);
+			document.save(directory + "/Sheet Music.pdf");
+			document.close();
+			file.delete();
+		} catch (IOException ex) {
+			Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+	
 	@FXML
 	private void exitApp(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Sheet Music Previewer");
 		alert.setHeaderText("You are about to exit the application!");
-		alert.setContentText("Do you want to save the sheet music before exiting?");
+		alert.setContentText("Are you sure you want to exit before saving the sheet music?");
 
 		alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
 
@@ -289,22 +342,20 @@ public class ApplicationController extends Application implements Initializable 
 		if (result.get() == ButtonType.YES) {
 			Stage stage = (Stage) anchorpane.getScene().getWindow();
 			stage.close();
-			System.out.println("Exited the application!");
 		}
 		else if (result.get() == ButtonType.CANCEL) {
 			alert.close();
-			System.out.println("Exit request cancelled!");
 		}
 	}
 
 	// Media Controls
-	
+
 	@FXML
 	public void playBtn() throws ParserConfigurationException, MidiUnavailableException, InvalidMidiDataException {
 		if (!played) {
-			new Thread( ()->{
-				musicPlayer.run();
+			new Thread(()->{
 				try {
+					musicPlayer.run();
 					musicPlayer.play();
 				} catch (InvalidMidiDataException | MidiUnavailableException e) {
 					e.printStackTrace();
@@ -313,11 +364,11 @@ public class ApplicationController extends Application implements Initializable 
 			played = true;
 			isPlaying = true;
 		}
-		else if (isPlaying) {
+		else if (musicPlayer.manager.getManagedPlayer().isPlaying()) {
 			musicPlayer.pause();
 			isPlaying = false;
 		}
-		else {
+		else if (!musicPlayer.manager.getManagedPlayer().isPlaying()) {
 			musicPlayer.resume();
 			isPlaying = true;
 		}
@@ -333,7 +384,6 @@ public class ApplicationController extends Application implements Initializable 
 		musicPlayer.stop();
 		playPauseImage.setImage(new Image("image_assets/play.png"));
 		playPauseButton.setText("Play");
-		isPlaying = false;
 	}
 
 	@FXML
@@ -342,7 +392,7 @@ public class ApplicationController extends Application implements Initializable 
 			this.playPauseImage.setImage(new Image("image_assets/play.png"));
 			this.playPauseButton.setText("Play");
 		}
-		else {
+		else if (isPlaying) {
 			this.playPauseImage.setImage(new Image("image_assets/pause.png"));
 			this.playPauseButton.setText("Pause");
 		}

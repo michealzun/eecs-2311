@@ -6,8 +6,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Hyperlink;
 
 public class About {
+	
+	@FXML
+    private Hyperlink authors;
 
 	@FXML
 	void authorLink(ActionEvent event) throws IOException, URISyntaxException {

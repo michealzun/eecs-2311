@@ -37,7 +37,7 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <Hyperlink layoutX="209.0" layoutY="200.0" onAction="#authorLink" text="Authors" />
+      <Hyperlink fx:id="authors" layoutX="209.0" layoutY="200.0" onAction="#authorLink" stylesheets="@application.css" text="Authors" />
       <Text fill="WHITE" layoutX="214.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Check for updates: " wrappingWidth="370.0" />
       <Hyperlink layoutX="316.0" layoutY="172.0" onAction="#githubLink" text="github" />
    </children>

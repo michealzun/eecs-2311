@@ -20,12 +20,11 @@ import converter.Instrument;
 import nu.xom.ParsingException;
 import utility.Settings;
 
-public class MusicPlayer {
-	private Player manager;
+public class MusicPlayer extends ApplicationController {
+	public Player manager;
 	private Sequencer sequencer;
 	private Sequence sequence;
 	private String musicXMLString;
-	private boolean stopped = false;
 
 	public MusicPlayer(String XMLString) throws ParserConfigurationException, MidiUnavailableException {
 		manager = new Player();
@@ -55,18 +54,6 @@ public class MusicPlayer {
 			sequence = listener.getSequence();
 			Track track = sequence.createTrack();
 			if (Settings.getInstance().getInstrument().equals(Instrument.GUITAR)) {
-				/*
-					MidiEvent instrumentChange = new MidiEvent(ShortMessage.PROGRAM_CHANGE,drumPatch.getBank(),drumPatch.getProgram());
-					Synthesizer synthesizer = MidiSystem.getSynthesizer();
-					synthesizer.open();
-					javax.sound.midi.Instrument[] instruments = synthesizer.getDefaultSoundbank().getInstruments();
-					for (javax.sound.midi.Instrument i : instruments) {
-						System.out.println(i);
-					}
-					javax.sound.midi.Instrument[] instruments = synthesizer.getDefaultSoundbank().getInstruments();
-					MidiChannel guitarChannel = synthesizer.getChannels()[0];
-					guitarChannel.programChange(instruments[25].getPatch().getProgram());
-				 */
 				ShortMessage instrument = new ShortMessage(ShortMessage.PROGRAM_CHANGE, 0, 24, 0);
 				track.add(new MidiEvent(instrument, 0));
 			}
@@ -92,13 +79,19 @@ public class MusicPlayer {
 
 	// Play Player
 	public void play() throws InvalidMidiDataException, MidiUnavailableException {
+		sequencer.open();
 		manager.getManagedPlayer().start(sequence);
 	}
-	
+
 	// Pause Player
-	public void pause() throws MidiUnavailableException {
-		manager.getManagedPlayer().pause();
-		sequencer.close();
+	public void pause() throws MidiUnavailableException, InvalidMidiDataException {
+		if (!manager.getManagedPlayer().isFinished()) {
+			manager.getManagedPlayer().pause();
+			sequencer.close();
+		}
+		else if (manager.getManagedPlayer().isFinished()) {
+			manager.getManagedPlayer().start(sequence);
+		}
 	}
 
 	// Rewind Player
@@ -108,14 +101,14 @@ public class MusicPlayer {
 
 	// Stop Player
 	public void stop() throws MidiUnavailableException {
+		manager.getManagedPlayer().reset();
 		manager.getManagedPlayer().finish();
-		stopped = true;
 	}
 
 	// Resume Player
 	public void resume() throws InvalidMidiDataException {
 		try {
-			if (stopped == false) {
+			if (manager.getManagedPlayer().isPaused()) {
 				sequencer.open();
 				manager.getManagedPlayer().resume();
 			}

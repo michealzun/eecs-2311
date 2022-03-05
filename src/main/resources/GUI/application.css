@@ -15,6 +15,9 @@
 	-fx-padding: 3 5;
     -fx-background: #242326;
     }
+.tooltip {
+	-fx-font-size: 10.5px;
+	}
 #name {
 	-fx-font-size: 30.0px;
 	}

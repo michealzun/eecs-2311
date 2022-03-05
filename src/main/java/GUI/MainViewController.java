@@ -329,6 +329,16 @@ public class MainViewController extends Application {
 
 			stage.setScene(scene);
 			stage.show();
+			
+			// Stage Exit Event (X)
+//			stage.setOnCloseRequest(event -> {
+//				Alert alert = new Alert(AlertType.CONFIRMATION);
+//				alert.setTitle("Sheet Music Previewer");
+//				alert.setHeaderText("You are about to exit the application!");
+//				alert.setContentText("Are you sure you want to exit before saving the sheet music?");
+//				alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+//				alert.showAndWait().filter(r -> r != ButtonType.YES).ifPresent(r->event.consume());
+//			});
 		}
 		catch (Exception e) {
 			e.printStackTrace();
