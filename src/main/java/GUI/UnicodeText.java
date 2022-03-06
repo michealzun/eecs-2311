@@ -85,7 +85,6 @@ public class UnicodeText extends Pane {
 			measureType="\uD834\uDD19";
 			break;
 		case 5:
-			
 			break;
 		case 6:
 			measureType="\uD834\uDD1B";

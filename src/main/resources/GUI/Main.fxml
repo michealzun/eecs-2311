@@ -34,7 +34,7 @@
                <children>
                   <VBox prefHeight="45.0" prefWidth="600.0" style="-fx-background-color: #1D1C1F; -fx-border-color: #262428; -fx-border-width: 1 0 1 0;">
                      <children>
-                        <Label fx:id="pathTitle" prefHeight="17.0" prefWidth="150.0" stylesheets="@application.css" text="File Path" textFill="WHITE">
+                        <Label fx:id="pathTitle" prefHeight="17.0" prefWidth="150.0" stylesheets="@application.css" textFill="WHITE">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -67,7 +67,7 @@
                                     <MenuItem fx:id="exit" mnemonicParsing="false" onAction="#exitApp" text="Exit" />
                                  </items>
                               </Menu>
-                              <Menu mnemonicParsing="false" text="Edit">
+                              <Menu mnemonicParsing="false" text="Edit" visible="false">
                                  <items>
                                     <MenuItem mnemonicParsing="false" text="Delete" />
                                  </items>
@@ -116,9 +116,9 @@
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </Separator>
-                        <Button fx:id="openButton" mnemonicParsing="false" onAction="#openBtn" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Open" textFill="WHITE">
+                        <Button fx:id="openPDF" mnemonicParsing="false" onAction="#pdfBtn" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="PDF" textFill="WHITE">
                            <graphic>
-                              <ImageView fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" scaleY="1.1" scaleZ="1.1">
+                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" scaleZ="1.1">
                                  <image>
                                     <Image url="@../image_assets/open.png" />
                                  </image>
@@ -132,19 +132,7 @@
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../image_assets/save.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <font>
-                              <Font size="9.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="openPDF" mnemonicParsing="false" onAction="#pdfBtn" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="PDF" textFill="WHITE">
-                           <graphic>
-                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" scaleZ="1.1">
-                                 <image>
-                                    <Image url="@../image_assets/pdf.png" />
+                                    <Image url="@../image_assets/sheetmusic.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -162,6 +150,18 @@
                               <ImageView fx:id="playPauseImage" fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../image_assets/play.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseBtn" onMouseClicked="#playPauseBtnImage" prefHeight="49.0" prefWidth="52.0" stylesheets="@application.css" text="Pause" textFill="WHITE">
+                           <graphic>
+                              <ImageView fx:id="playPauseImage1" fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image_assets/pause.png" />
                                  </image>
                               </ImageView>
                            </graphic>

@@ -61,16 +61,17 @@ public class MusicPlayer extends ApplicationController {
 				ShortMessage instrument = new ShortMessage(ShortMessage.PROGRAM_CHANGE, 0, 32, 0);
 				track.add(new MidiEvent(instrument, 0));
 			}
-			else if (Settings.getInstance().getInstrument().equals(Instrument.DRUMS)) { // WIP
+			// WIP
+			else if (Settings.getInstance().getInstrument().equals(Instrument.DRUMS)) { 
 				ShortMessage instrument = new ShortMessage(ShortMessage.PROGRAM_CHANGE, 9, 118, 0);
 				track.add(new MidiEvent(instrument, 0));
 			}
 			else {
 				System.err.println("Instrument not recognized");
+				return;
 			} 
 			// Load Sequence into Sequencer
 			sequencer.setSequence(sequence);
-			// Start Playback
 
 		} catch (MidiUnavailableException | InvalidMidiDataException | IOException | ParserConfigurationException | ParsingException ex) {
 			ex.printStackTrace();
@@ -78,19 +79,16 @@ public class MusicPlayer extends ApplicationController {
 	}
 
 	// Play Player
-	public void play() throws InvalidMidiDataException, MidiUnavailableException {
+	public void play() throws InvalidMidiDataException, MidiUnavailableException, InterruptedException {
 		sequencer.open();
 		manager.getManagedPlayer().start(sequence);
 	}
 
 	// Pause Player
 	public void pause() throws MidiUnavailableException, InvalidMidiDataException {
-		if (!manager.getManagedPlayer().isFinished()) {
+		if (manager.getManagedPlayer().isPlaying() || !manager.getManagedPlayer().isFinished()) {
 			manager.getManagedPlayer().pause();
 			sequencer.close();
-		}
-		else if (manager.getManagedPlayer().isFinished()) {
-			manager.getManagedPlayer().start(sequence);
 		}
 	}
 
@@ -105,19 +103,20 @@ public class MusicPlayer extends ApplicationController {
 		manager.getManagedPlayer().finish();
 	}
 
-	// Resume Player
-	public void resume() throws InvalidMidiDataException {
-		try {
-			if (manager.getManagedPlayer().isPaused()) {
-				sequencer.open();
-				manager.getManagedPlayer().resume();
-			}
-			else {
-				play();
-			}
-		} catch (MidiUnavailableException e) {
-			e.printStackTrace();
-		}
-	}
+	// WIP 
+//	// Resume Player
+//	public void resume() throws InvalidMidiDataException {
+//		try {
+//			if (manager.getManagedPlayer().isPaused() || !manager.getManagedPlayer().isFinished()) {
+//				sequencer.open();
+//				manager.getManagedPlayer().resume();
+//			}
+//			else {
+//				play();
+//			}
+//		} catch (MidiUnavailableException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 }

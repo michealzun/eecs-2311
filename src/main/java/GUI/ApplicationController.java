@@ -63,7 +63,6 @@ public class ApplicationController extends Application implements Initializable 
 	private MusicPlayer musicPlayer;
 	private UnicodeText unicode;
 	private String musicXMLString;
-	private boolean played = false;
 	private boolean isPlaying = false;
 
 	// UI Layout Attribute(s)
@@ -120,9 +119,6 @@ public class ApplicationController extends Application implements Initializable 
 	private Button homeButton;
 
 	@FXML
-	private Button openButton;
-
-	@FXML
 	private Button saveButton;
 
 	@FXML
@@ -135,6 +131,9 @@ public class ApplicationController extends Application implements Initializable 
 	private ImageView playPauseImage;
 
 	@FXML
+	private Button pauseButton;
+
+	@FXML
 	private Button rewindButton;
 
 	@FXML
@@ -144,31 +143,37 @@ public class ApplicationController extends Application implements Initializable 
 	private Button manualButton;
 
 	// Initialization Phase
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tooltip();
+		pauseButton.setDisable(true);
+		rewindButton.setDisable(true);
+		stopButton.setDisable(true);
 	}
-
+	
+	// Button Tooltips
+	
 	public void tooltip() {
-		Tooltip homeTip = new Tooltip("Close current window and go to XMLstring input panel");
+		Tooltip homeTip = new Tooltip("Close current previewer and go to TAB2XML panel");
 		homeButton.setTooltip(homeTip);
 
-		Tooltip openTip = new Tooltip("Open musicXML file");
-		openButton.setTooltip(openTip);
-
-		Tooltip saveButtonTip = new Tooltip("Save musicXML file");
+		Tooltip saveButtonTip = new Tooltip("Save sheet music as PDF document");
 		saveButton.setTooltip(saveButtonTip);
 
-		Tooltip openPDFTip = new Tooltip("Save sheet music as PDF");
+		Tooltip openPDFTip = new Tooltip("Open documents in embedded pdf viewer");
 		openPDF.setTooltip(openPDFTip);
 
-		Tooltip playPauseButtonTip = new Tooltip("Play sheet music player");
+		Tooltip playPauseButtonTip = new Tooltip("Play sheet music");
 		playPauseButton.setTooltip(playPauseButtonTip);
 
-		Tooltip rewindButtonTip = new Tooltip("Rewind to start of sheet music player");
+		Tooltip pauseButtonTip = new Tooltip("Pause sheet music");
+		pauseButton.setTooltip(pauseButtonTip);
+		
+		Tooltip rewindButtonTip = new Tooltip("Rewind to start of sheet music");
 		rewindButton.setTooltip(rewindButtonTip);
 
-		Tooltip stopButtonTip = new Tooltip("Stop sheet music player");
+		Tooltip stopButtonTip = new Tooltip("Stop sheet music");
 		stopButton.setTooltip(stopButtonTip);
 
 		Tooltip manualButtonTip = new Tooltip("Retrieve user manual");
@@ -187,6 +192,7 @@ public class ApplicationController extends Application implements Initializable 
 		// Initializes Sheet Music Player
 		try {
 			musicPlayer = new MusicPlayer(musicSheet);
+			musicPlayer.run();
 		} catch (ParserConfigurationException | MidiUnavailableException e) {
 			e.printStackTrace();
 		}
@@ -194,16 +200,27 @@ public class ApplicationController extends Application implements Initializable 
 
 	// Button Methods
 
-	// Close Previewer & Go to Input Panel
+	// Closer previewer and goes to TAB2XML input panel
 	@FXML
 	private void homeBtn(ActionEvent event) {
 		Stage stage = (Stage) anchorpane.getScene().getWindow();
 		stage.close();
 	}
 
+	private String openFile() {
+		String userDirectory = System.getProperty("user.home");
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setInitialDirectory(new File(userDirectory + "/Desktop"));
+		Stage stage = (Stage) anchorpane.getScene().getWindow();
+		File file = fileChooser.showOpenDialog(stage);
+		return file.getAbsolutePath();
+	} 
+
+	// Embedded pdf previewer (view sheet music in previewer)
 	@FXML
 	private void pdfBtn(ActionEvent event) {
 		try {
+			pathTitle.setText("File Path");
 			String filePath = openFile();
 			this.filePath.setText(filePath);
 			// Build a controller
@@ -229,23 +246,16 @@ public class ApplicationController extends Application implements Initializable 
 			swingNode.setContent(viewerComponentPanel);
 			this.centerPane.getChildren().add(swingNode);
 			Stage stage = (Stage) centerPane.getScene().getWindow();
-			stage.setFullScreen(!stage.isFullScreen());
+			stage.setMaximized(!stage.isMaximized());
 			stage.show();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+		saveButton.setDisable(true);
 	}
 
-	private String openFile() {
-		String userDirectory = System.getProperty("user.home");
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setInitialDirectory(new File(userDirectory + "/Desktop"));
-		Stage stage = (Stage) anchorpane.getScene().getWindow();
-		File file = fileChooser.showOpenDialog(stage);
-		return file.getAbsolutePath();
-	} 
-
+	// About page
 	@FXML
 	private void aboutFile(ActionEvent event) throws IOException {
 		try {
@@ -264,7 +274,8 @@ public class ApplicationController extends Application implements Initializable 
 			e.printStackTrace();
 		}
 	}
-
+	
+	// Open user manual
 	@FXML
 	private void manualBtn(ActionEvent event) {
 		try {
@@ -275,6 +286,7 @@ public class ApplicationController extends Application implements Initializable 
 		}
 	}
 
+	// Open docs with external applications
 	@FXML
 	private void openBtn(ActionEvent event) throws SAXException, IOException, ParserConfigurationException {
 		String userDirectory = System.getProperty("user.home");
@@ -291,17 +303,19 @@ public class ApplicationController extends Application implements Initializable 
 				e.printStackTrace();
 			}
 		}
+		pathTitle.setText("File Path");
 		filePath.setText(file.toString());
 	}
 
+	// Save sheet music
 	@FXML
 	private void saveBtn(ActionEvent event) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		DirectoryChooser dc = new DirectoryChooser();
 		File directory = dc.showDialog(null);
 		if (directory != null) {
 			directory = new File(directory.getAbsolutePath()); // + "/dafaultFilename.extension"
-			}
-	
+		}
+
 		WritableImage nodeshot = unicode.snapshot(new SnapshotParameters(), null);
 		File file = new File("musicXML.png");
 
@@ -327,8 +341,11 @@ public class ApplicationController extends Application implements Initializable 
 		} catch (IOException ex) {
 			Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
 		}
+		pathTitle.setText("Save Path");
+		filePath.setText(directory.toString());
 	}
-	
+
+	// Exit prompt
 	@FXML
 	private void exitApp(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -351,27 +368,16 @@ public class ApplicationController extends Application implements Initializable 
 	// Media Controls
 
 	@FXML
-	public void playBtn() throws ParserConfigurationException, MidiUnavailableException, InvalidMidiDataException {
-		if (!played) {
-			new Thread(()->{
-				try {
-					musicPlayer.run();
-					musicPlayer.play();
-				} catch (InvalidMidiDataException | MidiUnavailableException e) {
-					e.printStackTrace();
-				}
-			}).start();
-			played = true;
-			isPlaying = true;
-		}
-		else if (musicPlayer.manager.getManagedPlayer().isPlaying()) {
-			musicPlayer.pause();
-			isPlaying = false;
-		}
-		else if (!musicPlayer.manager.getManagedPlayer().isPlaying()) {
-			musicPlayer.resume();
-			isPlaying = true;
-		}
+	public void playBtn(ActionEvent event) throws ParserConfigurationException, MidiUnavailableException, InvalidMidiDataException, InterruptedException {
+		musicPlayer.play();
+		pauseButton.setDisable(false);
+		rewindButton.setDisable(false);
+		stopButton.setDisable(false);
+	}
+
+	@FXML
+	void pauseBtn(ActionEvent event) throws MidiUnavailableException, InvalidMidiDataException {
+		musicPlayer.pause();
 	}
 
 	@FXML
@@ -385,14 +391,15 @@ public class ApplicationController extends Application implements Initializable 
 		playPauseImage.setImage(new Image("image_assets/play.png"));
 		playPauseButton.setText("Play");
 	}
-
+	
+	// WIP 
 	@FXML
 	private void playPauseBtnImage(MouseEvent event) {
-		if (!isPlaying) {
+		if (isPlaying == false) {
 			this.playPauseImage.setImage(new Image("image_assets/play.png"));
 			this.playPauseButton.setText("Play");
 		}
-		else if (isPlaying) {
+		else if (isPlaying == true) {
 			this.playPauseImage.setImage(new Image("image_assets/pause.png"));
 			this.playPauseButton.setText("Pause");
 		}
