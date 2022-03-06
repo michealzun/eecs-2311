@@ -40,7 +40,6 @@
 	<classpathentry kind="lib" path="src/lib/icepdf-core-6.2.2.jar"/>
 	<classpathentry kind="lib" path="src/lib/jfugue-5.0.9.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jfugue"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin/default"/>
 </classpath>

@@ -54,7 +54,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -310,11 +309,17 @@ public class ApplicationController extends Application implements Initializable 
 	// Save sheet music
 	@FXML
 	private void saveBtn(ActionEvent event) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		DirectoryChooser dc = new DirectoryChooser();
-		File directory = dc.showDialog(null);
+		String userDirectory = System.getProperty("user.home");
+		FileChooser fc = new FileChooser();
+		fc.setInitialDirectory(new File(userDirectory + "/Desktop"));
+		fc.getExtensionFilters().addAll(
+				new FileChooser.ExtensionFilter("PDF", "*.pdf")
+				);
+		File directory = fc.showSaveDialog(null);
 		if (directory != null) {
-			directory = new File(directory.getAbsolutePath()); // + "/dafaultFilename.extension"
+			directory = new File(directory.getAbsolutePath());
 		}
+		System.out.println(directory.toString());
 
 		WritableImage nodeshot = unicode.snapshot(new SnapshotParameters(), null);
 		File file = new File("musicXML.png");
@@ -335,7 +340,7 @@ public class ApplicationController extends Application implements Initializable 
 			content.drawImage(image, 0, 200);
 			content.close();
 			document.addPage(page);
-			document.save(directory + "/Sheet Music.pdf");
+			document.save(directory);
 			document.close();
 			file.delete();
 		} catch (IOException ex) {
