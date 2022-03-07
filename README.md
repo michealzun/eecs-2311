@@ -21,8 +21,8 @@ If an execuatable is not present, that means we could not get one running on tim
 - [Setup video](https://www.youtube.com/watch?v=_7OM-cMYWbQ) note we already have JavaFX folder in the project so it's slightly different
 
 # Documentation
-- [Requirements Document](https://drive.google.com/file/d/1P6PVXSci40jC2ZXHNMJsVcVXKRzrPFJE/view?usp=sharing)
-- [User Manual](https://drive.google.com/file/d/145ux549id4GujhYk7V6eDImr-z0rWSo-/view?usp=sharing)
+- [Requirements Document](https://drive.google.com/file/d/1II7XuyfTQxKBaKlzKc44X2qBzGoanHCT/view?usp=sharing)
+- [User Manual](https://drive.google.com/file/d/1Pb8YTmuK9Y3GXBBmZzaieXYG3dePYGNR/view?usp=sharing)
 
 # Contributors
 - Micheal Sun
